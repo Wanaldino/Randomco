@@ -17,6 +17,10 @@ struct UserList: View {
         NavigationView {
             content
                 .navigationTitle("Users")
+                .navigationBarItems(trailing: Button(action: loadMore) {
+                    Image(systemName: "plus")
+                })
+
         }
     }
 
@@ -56,6 +60,21 @@ extension UserList {
                 }
             } receiveValue: { response in
                 self.users = response
+            }
+            .store(in: &subscriptions)
+    }
+
+    func loadMore() {
+        userInteractor.fetchUsers()
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    print("finished")
+                }
+            } receiveValue: { _ in
+                retrieveUsers()
             }
             .store(in: &subscriptions)
     }
