@@ -9,9 +9,9 @@ import Foundation
 
 struct User {
     struct Name {
-        private let title: String
-        private let first: String
-        private let last: String
+        let title: String
+        let first: String
+        let last: String
 
         var fullName: String {
             String(format: "%@ %@ %@", title, first, last)
@@ -27,6 +27,15 @@ struct User {
             title = response.title
             first = response.first
             last = response.last
+        }
+
+        init?(from nameMO: NameMO) {
+            guard let title = nameMO.title,
+                  let first = nameMO.first,
+                  let last = nameMO.last
+            else { return nil }
+
+            self.init(title: title, first: first, last: last)
         }
     }
 
@@ -45,6 +54,15 @@ struct User {
             large = response.large
             medium = response.medium
             thumbnail = response.thumbnail
+        }
+
+        init?(from pictureMO: PictureMO) {
+            guard let large = pictureMO.large,
+                  let medium = pictureMO.medium,
+                  let thumbnail = pictureMO.thumbnail
+            else { return nil }
+
+            self.init(large: large, medium: medium, thumbnail: thumbnail)
         }
     }
 
@@ -65,6 +83,16 @@ struct User {
         email = response.email
         picture = Picture(from: response.picture)
         phone = response.phone
+    }
+
+    init?(from userMO: UserMO) {
+        guard let nameMO = userMO.name, let name = Name(from: nameMO),
+              let email = userMO.email,
+              let pictureMO = userMO.picture, let picture = Picture(from: pictureMO),
+              let phone = userMO.phone
+        else { return nil }
+
+        self.init(name: name, email: email, picture: picture, phone: phone)
     }
 }
 

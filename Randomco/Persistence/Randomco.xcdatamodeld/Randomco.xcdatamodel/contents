@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Name" representedClassName="NameMO" syncable="YES" codeGenerationType="class">
+        <attribute name="first" attributeType="String"/>
+        <attribute name="last" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="name" inverseEntity="User"/>
+    </entity>
+    <entity name="Picture" representedClassName="PictureMO" syncable="YES" codeGenerationType="class">
+        <attribute name="large" attributeType="String"/>
+        <attribute name="medium" attributeType="String"/>
+        <attribute name="thumbnail" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="picture" inverseEntity="User"/>
+    </entity>
+    <entity name="User" representedClassName="UserMO" syncable="YES" codeGenerationType="class">
+        <attribute name="email" attributeType="String"/>
+        <attribute name="phone" attributeType="String"/>
+        <relationship name="name" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
+        <relationship name="picture" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture"/>
+    </entity>
+</model>

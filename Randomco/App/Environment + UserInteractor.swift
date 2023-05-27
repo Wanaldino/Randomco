@@ -11,7 +11,7 @@ extension UserInteractor: EnvironmentKey {
     static var defaultValue: Self {
         return Self.default
     }
-    private static let `default` = Self(userRepository: UserRepository())
+    private static let `default` = Self(userRepository: UserRepository(), userDBRepository: UserDBRepository())
 }
 
 extension EnvironmentValues {

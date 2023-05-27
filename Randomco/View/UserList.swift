@@ -46,7 +46,7 @@ struct UserList: View {
 
 extension UserList {
     func retrieveUsers() {
-        userInteractor.fetchUsers()
+        userInteractor.load()
             .sink { completion in
                 switch completion {
                 case .failure(let error):

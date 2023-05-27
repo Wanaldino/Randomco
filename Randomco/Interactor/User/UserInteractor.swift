@@ -10,12 +10,34 @@ import Combine
 
 struct UserInteractor {
     let userRepository: UserRepository
+    let userDBRepository: UserDBRepository
 
-    func fetchUsers() -> AnyPublisher<[User], Error> {
+    func load() -> AnyPublisher<[User], Error> {
+        userDBRepository
+            .hasUsers()
+            .flatMap { hasUsers in
+                if hasUsers {
+                    return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
+                } else {
+                    return self.fetchUsers()
+                }
+            }
+            .flatMap { [userDBRepository] _ in
+                userDBRepository.users()
+            }
+            .eraseToAnyPublisher()
+    }
+
+    func fetchUsers() -> AnyPublisher<Void, Error> {
         userRepository
             .fetchUsers()
             .map(\.results)
-            .map { $0.map(User.init) }
+            .map { users in
+                users.map(User.init)
+            }
+            .flatMap({ [userDBRepository] users in
+                userDBRepository.store(users: users)
+            })
             .eraseToAnyPublisher()
     }
 }

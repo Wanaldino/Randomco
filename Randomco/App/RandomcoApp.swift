@@ -9,12 +9,9 @@ import SwiftUI
 
 @main
 struct RandomcoApp: App {
-    let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
             UserList()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environment(\.userInteractor, .defaultValue)
         }
     }
