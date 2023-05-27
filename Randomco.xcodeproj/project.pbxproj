@@ -24,6 +24,7 @@
 		D2357A3E2A22490100433D49 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A3D2A22490100433D49 /* User.swift */; };
 		D2357A402A224F9000433D49 /* UserDBRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A3F2A224F9000433D49 /* UserDBRepository.swift */; };
 		D2357A432A22510600433D49 /* ManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A422A22510600433D49 /* ManagedObject.swift */; };
+		D2357A462A22919500433D49 /* AnimatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A452A22919500433D49 /* AnimatePlaceholder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		D2357A3D2A22490100433D49 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D2357A3F2A224F9000433D49 /* UserDBRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDBRepository.swift; sourceTree = "<group>"; };
 		D2357A422A22510600433D49 /* ManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObject.swift; sourceTree = "<group>"; };
+		D2357A452A22919500433D49 /* AnimatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatePlaceholder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 		D2357A372A20E04700433D49 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D2357A442A22918200433D49 /* Modifiers */,
 				D2357A292A20C12000433D49 /* UserList.swift */,
 				D2357A3A2A20E30A00433D49 /* UserCell.swift */,
 			);
@@ -211,6 +214,14 @@
 				D2357A012A20B65300433D49 /* Randomco.xcdatamodeld */,
 			);
 			path = Persistence;
+			sourceTree = "<group>";
+		};
+		D2357A442A22918200433D49 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A452A22919500433D49 /* AnimatePlaceholder.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -353,6 +364,7 @@
 				D2357A002A20B65300433D49 /* Persistence.swift in Sources */,
 				D2357A402A224F9000433D49 /* UserDBRepository.swift in Sources */,
 				D2357A302A20C9A000433D49 /* UserListResponse.swift in Sources */,
+				D2357A462A22919500433D49 /* AnimatePlaceholder.swift in Sources */,
 				D2357A3E2A22490100433D49 /* User.swift in Sources */,
 				D23579F72A20B65200433D49 /* RandomcoApp.swift in Sources */,
 			);

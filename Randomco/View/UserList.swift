@@ -35,7 +35,14 @@ struct UserList: View {
 
     @ViewBuilder
     func EmptyView() -> some View {
-        Text("").onAppear(perform: retrieveUsers)
+        List {
+            ForEach((0 ..< 3)) { _ in
+                UserCell(user: .mock)
+                    .redacted(reason: .placeholder)
+                    .animatePlaceholder()
+            }
+        }
+        .onAppear(perform: retrieveUsers)
     }
 
     @ViewBuilder
