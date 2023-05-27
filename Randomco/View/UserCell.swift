@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserCell: View {
-    var user: UserListResponse.User
+    var user: User
 
     var body: some View {
         HStack {
@@ -39,19 +39,6 @@ struct UserCell: View {
 
 struct UserCell_Previews: PreviewProvider {
     static var previews: some View {
-        UserCell(user: UserListResponse.User(
-            name: UserListResponse.User.Name(
-                title: "Mr.",
-                first: "Carlos",
-                last: "Martinez"
-            ),
-            email: "example@example.com",
-            picture: UserListResponse.User.Picture(
-                large: "",
-                medium: "",
-                thumbnail: ""
-            ),
-            phone: "665 987 324"
-        ))
+        UserCell(user: User.mock)
     }
 }

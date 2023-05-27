@@ -10,7 +10,7 @@ import Combine
 
 struct UserList: View {
     @Environment(\.userInteractor) var userInteractor
-    @State var users: [UserListResponse.User] = []
+    @State var users: [User] = []
     @State fileprivate(set) var subscriptions = Set<AnyCancellable>()
 
     var body: some View {
@@ -55,7 +55,7 @@ extension UserList {
                     print("finished")
                 }
             } receiveValue: { response in
-                self.users = response.results
+                self.users = response
             }
             .store(in: &subscriptions)
     }

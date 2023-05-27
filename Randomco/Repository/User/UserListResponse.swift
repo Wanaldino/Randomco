@@ -13,10 +13,6 @@ struct UserListResponse: Decodable {
             let title: String
             let first: String
             let last: String
-
-            var fullName: String {
-                String(format: "%@ %@ %@", title, first, last)
-            }
         }
 
         struct Picture: Decodable {
@@ -32,10 +28,6 @@ struct UserListResponse: Decodable {
     }
     
     let results: [User]
-}
-
-extension UserListResponse.User: Identifiable {
-    var id: String { email }
 }
 
 extension UserListResponse.User {

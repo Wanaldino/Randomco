@@ -21,6 +21,7 @@
 		D2357A332A20DB4900433D49 /* UserInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A322A20DB4900433D49 /* UserInteractor.swift */; };
 		D2357A362A20DE0E00433D49 /* Environment + UserInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A352A20DE0E00433D49 /* Environment + UserInteractor.swift */; };
 		D2357A3B2A20E30A00433D49 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A3A2A20E30A00433D49 /* UserCell.swift */; };
+		D2357A3E2A22490100433D49 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A3D2A22490100433D49 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		D2357A322A20DB4900433D49 /* UserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInteractor.swift; sourceTree = "<group>"; };
 		D2357A352A20DE0E00433D49 /* Environment + UserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment + UserInteractor.swift"; sourceTree = "<group>"; };
 		D2357A3A2A20E30A00433D49 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		D2357A3D2A22490100433D49 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +167,7 @@
 		D2357A312A20CAB900433D49 /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
-				D2357A322A20DB4900433D49 /* UserInteractor.swift */,
+				D2357A3C2A2248F200433D49 /* User */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -186,6 +188,15 @@
 				D2357A3A2A20E30A00433D49 /* UserCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		D2357A3C2A2248F200433D49 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A322A20DB4900433D49 /* UserInteractor.swift */,
+				D2357A3D2A22490100433D49 /* User.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +337,7 @@
 				D2357A3B2A20E30A00433D49 /* UserCell.swift in Sources */,
 				D2357A002A20B65300433D49 /* Persistence.swift in Sources */,
 				D2357A302A20C9A000433D49 /* UserListResponse.swift in Sources */,
+				D2357A3E2A22490100433D49 /* User.swift in Sources */,
 				D23579F72A20B65200433D49 /* RandomcoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
