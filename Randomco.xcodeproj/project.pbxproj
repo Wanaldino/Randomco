@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D23579F72A20B65200433D49 /* RandomcoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23579F62A20B65200433D49 /* RandomcoApp.swift */; };
-		D23579F92A20B65200433D49 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23579F82A20B65200433D49 /* ContentView.swift */; };
 		D23579FB2A20B65300433D49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D23579FA2A20B65300433D49 /* Assets.xcassets */; };
 		D23579FE2A20B65300433D49 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D23579FD2A20B65300433D49 /* Preview Assets.xcassets */; };
 		D2357A002A20B65300433D49 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23579FF2A20B65300433D49 /* Persistence.swift */; };
@@ -16,6 +15,12 @@
 		D2357A0D2A20B65300433D49 /* RandomcoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A0C2A20B65300433D49 /* RandomcoTests.swift */; };
 		D2357A172A20B65300433D49 /* RandomcoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A162A20B65300433D49 /* RandomcoUITests.swift */; };
 		D2357A192A20B65300433D49 /* RandomcoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A182A20B65300433D49 /* RandomcoUITestsLaunchTests.swift */; };
+		D2357A2A2A20C12000433D49 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A292A20C12000433D49 /* UserList.swift */; };
+		D2357A2D2A20C91500433D49 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A2C2A20C91500433D49 /* UserRepository.swift */; };
+		D2357A302A20C9A000433D49 /* UserListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A2F2A20C9A000433D49 /* UserListResponse.swift */; };
+		D2357A332A20DB4900433D49 /* UserInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A322A20DB4900433D49 /* UserInteractor.swift */; };
+		D2357A362A20DE0E00433D49 /* Environment + UserInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A352A20DE0E00433D49 /* Environment + UserInteractor.swift */; };
+		D2357A3B2A20E30A00433D49 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A3A2A20E30A00433D49 /* UserCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +43,6 @@
 /* Begin PBXFileReference section */
 		D23579F32A20B65200433D49 /* Randomco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Randomco.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D23579F62A20B65200433D49 /* RandomcoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomcoApp.swift; sourceTree = "<group>"; };
-		D23579F82A20B65200433D49 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D23579FA2A20B65300433D49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D23579FD2A20B65300433D49 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D23579FF2A20B65300433D49 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -48,6 +52,12 @@
 		D2357A122A20B65300433D49 /* RandomcoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomcoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2357A162A20B65300433D49 /* RandomcoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomcoUITests.swift; sourceTree = "<group>"; };
 		D2357A182A20B65300433D49 /* RandomcoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomcoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D2357A292A20C12000433D49 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
+		D2357A2C2A20C91500433D49 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		D2357A2F2A20C9A000433D49 /* UserListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListResponse.swift; sourceTree = "<group>"; };
+		D2357A322A20DB4900433D49 /* UserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInteractor.swift; sourceTree = "<group>"; };
+		D2357A352A20DE0E00433D49 /* Environment + UserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment + UserInteractor.swift"; sourceTree = "<group>"; };
+		D2357A3A2A20E30A00433D49 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +108,10 @@
 		D23579F52A20B65200433D49 /* Randomco */ = {
 			isa = PBXGroup;
 			children = (
-				D23579F62A20B65200433D49 /* RandomcoApp.swift */,
-				D23579F82A20B65200433D49 /* ContentView.swift */,
+				D2357A372A20E04700433D49 /* View */,
+				D2357A312A20CAB900433D49 /* Interactor */,
+				D2357A2B2A20C90500433D49 /* Repository */,
+				D2357A342A20DDF000433D49 /* App */,
 				D23579FA2A20B65300433D49 /* Assets.xcassets */,
 				D23579FF2A20B65300433D49 /* Persistence.swift */,
 				D2357A012A20B65300433D49 /* Randomco.xcdatamodeld */,
@@ -131,6 +143,49 @@
 				D2357A182A20B65300433D49 /* RandomcoUITestsLaunchTests.swift */,
 			);
 			path = RandomcoUITests;
+			sourceTree = "<group>";
+		};
+		D2357A2B2A20C90500433D49 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A2E2A20C96500433D49 /* User */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		D2357A2E2A20C96500433D49 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A2C2A20C91500433D49 /* UserRepository.swift */,
+				D2357A2F2A20C9A000433D49 /* UserListResponse.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		D2357A312A20CAB900433D49 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A322A20DB4900433D49 /* UserInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		D2357A342A20DDF000433D49 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D23579F62A20B65200433D49 /* RandomcoApp.swift */,
+				D2357A352A20DE0E00433D49 /* Environment + UserInteractor.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D2357A372A20E04700433D49 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A292A20C12000433D49 /* UserList.swift */,
+				D2357A3A2A20E30A00433D49 /* UserCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,9 +318,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2357A2A2A20C12000433D49 /* UserList.swift in Sources */,
+				D2357A332A20DB4900433D49 /* UserInteractor.swift in Sources */,
+				D2357A362A20DE0E00433D49 /* Environment + UserInteractor.swift in Sources */,
 				D2357A032A20B65300433D49 /* Randomco.xcdatamodeld in Sources */,
+				D2357A2D2A20C91500433D49 /* UserRepository.swift in Sources */,
+				D2357A3B2A20E30A00433D49 /* UserCell.swift in Sources */,
 				D2357A002A20B65300433D49 /* Persistence.swift in Sources */,
-				D23579F92A20B65200433D49 /* ContentView.swift in Sources */,
+				D2357A302A20C9A000433D49 /* UserListResponse.swift in Sources */,
 				D23579F72A20B65200433D49 /* RandomcoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

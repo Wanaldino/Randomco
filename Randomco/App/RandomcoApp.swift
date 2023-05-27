@@ -13,8 +13,10 @@ struct RandomcoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            UserList()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.userInteractor, .defaultValue)
         }
     }
 }
+
