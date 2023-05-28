@@ -15,18 +15,36 @@ struct UserListResponse: Decodable {
             let last: String
         }
 
+        struct Location: Decodable {
+            struct Street: Decodable {
+                let number: Int
+                let name: String
+            }
+
+            let street: Street
+            let city: String
+            let state: String
+        }
+
         struct Picture: Decodable {
             let large: String
             let medium: String
             let thumbnail: String
         }
 
+        struct Register: Decodable {
+            let date: Date
+        }
+
+        let gender: String
         let name: Name
+        let location: Location
         let email: String
         let picture: Picture
         let phone: String
+        let registered: Register
     }
-    
+
     let results: [User]
 }
 
