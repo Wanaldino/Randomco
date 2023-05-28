@@ -25,8 +25,7 @@ struct UserDBRepository {
             .fetch(request)
             .flatMap({ userMO in
                 persistentStore.map(values: userMO) { value in
-                    guard let user = User(from: value) else { throw NSError(domain: "", code: 0) }
-                    return user
+                    User(from: value)
                 }
             })
             .eraseToAnyPublisher()
@@ -59,7 +58,10 @@ extension UserMO {
 
     static func users() -> NSFetchRequest<UserMO> {
         let request = newFetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "name.first", ascending: true)]
+        request.sortDescriptors = [
+            NSSortDescriptor(key: "name.first", ascending: true),
+            NSSortDescriptor(key: "name.last", ascending: true)
+        ]
         request.fetchBatchSize = 10
         return request
     }

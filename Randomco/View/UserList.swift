@@ -50,6 +50,23 @@ struct UserList: View {
         List {
             ForEach(users) { user in
                 UserCell(user: user)
+                    .swipeActions(edge: .trailing) {
+                        Button(action: {
+                            toggleFavourite(of: user)
+                        }, label: {
+                            let image = user.isFavourite ? "star.slash" : "star"
+                            Label("Favourite", systemImage: image)
+                        })
+                        .tint(.yellow)
+
+                        Button(action: {
+                            print("Delete")
+                        }, label: {
+                            Label("Delete", systemImage: "trash")
+                        })
+                        .tint(.red)
+                    }
+                    .listRowBackground(user.isFavourite ? Color.yellow : nil)
             }
         }
     }
@@ -66,13 +83,30 @@ extension UserList {
                     print("finished")
                 }
             } receiveValue: { response in
-                self.users = response
+                withAnimation {
+                    self.users = response
+                }
             }
             .store(in: &subscriptions)
     }
 
     func loadMore() {
         userInteractor.fetchUsers()
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    print("finished")
+                }
+            } receiveValue: { _ in
+                retrieveUsers()
+            }
+            .store(in: &subscriptions)
+    }
+
+    func toggleFavourite(of user: User) {
+        userInteractor.toggleFavourite(of: user)
             .sink { completion in
                 switch completion {
                 case .failure(let error):

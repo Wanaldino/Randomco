@@ -14,6 +14,7 @@
     </entity>
     <entity name="User" representedClassName="UserMO" syncable="YES" codeGenerationType="class">
         <attribute name="email" attributeType="String"/>
+        <attribute name="isFavourite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="phone" attributeType="String"/>
         <relationship name="name" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
         <relationship name="picture" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture"/>

@@ -13,7 +13,7 @@ protocol PersistentStore {
 
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, Error>
     func fetch<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<[T], Error>
-    func map<T, V>(values: [T], _ map: @escaping (T) throws -> V) -> AnyPublisher<[V], Error>
+    func map<T, V>(values: [T], _ map: @escaping (T) throws -> V?) -> AnyPublisher<[V], Error>
     func update<Result>(_ operation: @escaping DBOperation<Result>) -> AnyPublisher<Result, Error>
 }
 
@@ -76,12 +76,12 @@ struct CoreDataStack: PersistentStore {
             .eraseToAnyPublisher()
     }
 
-    func map<T, V>(values: [T], _ map: @escaping (T) throws -> V) -> AnyPublisher<[V], Error> {
+    func map<T, V>(values: [T], _ map: @escaping (T) throws -> V?) -> AnyPublisher<[V], Error> {
         let fetch = Future<[V], Error> { [weak container] promise in
             guard let context = container?.viewContext else { return }
             context.performAndWait {
                 do {
-                    let results = try values.map(map)
+                    let results = try values.compactMap(map)
                     promise(.success(results))
                 } catch {
                     promise(.failure(error))

@@ -40,4 +40,12 @@ struct UserInteractor {
             })
             .eraseToAnyPublisher()
     }
+
+    func toggleFavourite(of user: User) -> AnyPublisher<Void, Error> {
+        var user = user
+        user.isFavourite.toggle()
+        return userDBRepository
+            .store(users: [user])
+            .eraseToAnyPublisher()
+    }
 }
