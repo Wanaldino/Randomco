@@ -62,6 +62,7 @@ extension UserMO {
             NSSortDescriptor(key: "name.first", ascending: true),
             NSSortDescriptor(key: "name.last", ascending: true)
         ]
+        request.predicate = NSPredicate(format: "isHidden = false")
         request.fetchBatchSize = 10
         return request
     }

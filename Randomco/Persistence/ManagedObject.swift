@@ -35,6 +35,7 @@ extension UserMO {
         self.phone = user.phone
         self.email = user.email
         self.isFavourite = user.isFavourite
+        self.isHidden = user.isHidden
 
         self.name = NameMO.insertNew(in: context)
         self.name?.store(name: user.name)

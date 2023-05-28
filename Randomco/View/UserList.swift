@@ -52,7 +52,7 @@ struct UserList: View {
                 UserCell(user: user)
                     .swipeActions(edge: .trailing) {
                         Button(action: {
-                            toggleFavourite(of: user)
+                            favourite(user)
                         }, label: {
                             let image = user.isFavourite ? "star.slash" : "star"
                             Label("Favourite", systemImage: image)
@@ -60,7 +60,7 @@ struct UserList: View {
                         .tint(.yellow)
 
                         Button(action: {
-                            print("Delete")
+                            delete(user)
                         }, label: {
                             Label("Delete", systemImage: "trash")
                         })
@@ -105,8 +105,23 @@ extension UserList {
             .store(in: &subscriptions)
     }
 
-    func toggleFavourite(of user: User) {
-        userInteractor.toggleFavourite(of: user)
+    func favourite(_ user: User) {
+        userInteractor.favourite(user)
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    print("finished")
+                }
+            } receiveValue: { _ in
+                retrieveUsers()
+            }
+            .store(in: &subscriptions)
+    }
+
+    func delete(_ user: User) {
+        userInteractor.delete(user)
             .sink { completion in
                 switch completion {
                 case .failure(let error):

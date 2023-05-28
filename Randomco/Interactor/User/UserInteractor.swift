@@ -41,9 +41,17 @@ struct UserInteractor {
             .eraseToAnyPublisher()
     }
 
-    func toggleFavourite(of user: User) -> AnyPublisher<Void, Error> {
+    func favourite(_ user: User) -> AnyPublisher<Void, Error> {
         var user = user
         user.isFavourite.toggle()
+        return userDBRepository
+            .store(users: [user])
+            .eraseToAnyPublisher()
+    }
+
+    func delete(_ user: User) -> AnyPublisher<Void, Error> {
+        var user = user
+        user.isHidden = true
         return userDBRepository
             .store(users: [user])
             .eraseToAnyPublisher()

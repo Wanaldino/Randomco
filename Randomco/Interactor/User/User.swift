@@ -72,13 +72,15 @@ struct User {
     let phone: String
 
     var isFavourite: Bool
+    var isHidden: Bool
 
-    init(name: Name, email: String, picture: Picture, phone: String, isFavourite: Bool) {
+    init(name: Name, email: String, picture: Picture, phone: String, isFavourite: Bool, isHidden: Bool) {
         self.name = name
         self.email = email
         self.picture = picture
         self.phone = phone
         self.isFavourite = isFavourite
+        self.isHidden = isHidden
     }
 
     init(from response: UserListResponse.User) {
@@ -87,6 +89,7 @@ struct User {
         picture = Picture(from: response.picture)
         phone = response.phone
         isFavourite = false
+        isHidden = false
     }
 
     init?(from userMO: UserMO) {
@@ -96,7 +99,14 @@ struct User {
               let phone = userMO.phone
         else { return nil }
 
-        self.init(name: name, email: email, picture: picture, phone: phone, isFavourite: userMO.isFavourite)
+        self.init(
+            name: name,
+            email: email,
+            picture: picture,
+            phone: phone,
+            isFavourite: userMO.isFavourite,
+            isHidden: userMO.isHidden
+        )
     }
 }
 
@@ -118,6 +128,7 @@ extension User {
             thumbnail: ""
         ),
         phone: "665 987 324",
-        isFavourite: true
+        isFavourite: true,
+        isHidden: false
     )
 }
