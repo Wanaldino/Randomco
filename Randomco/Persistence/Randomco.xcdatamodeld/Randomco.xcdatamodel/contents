@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Location" representedClassName="LocationMO" syncable="YES" codeGenerationType="class">
+        <attribute name="city" attributeType="String"/>
+        <attribute name="state" attributeType="String"/>
+        <relationship name="street" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Street" inverseName="location" inverseEntity="Street"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="location" inverseEntity="User"/>
+    </entity>
     <entity name="Name" representedClassName="NameMO" syncable="YES" codeGenerationType="class">
         <attribute name="first" attributeType="String"/>
         <attribute name="last" attributeType="String"/>
@@ -12,12 +18,24 @@
         <attribute name="thumbnail" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="picture" inverseEntity="User"/>
     </entity>
+    <entity name="Register" representedClassName="RegisterMO" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="registered" inverseEntity="User"/>
+    </entity>
+    <entity name="Street" representedClassName="StreetMO" syncable="YES" codeGenerationType="class">
+        <attribute name="name" attributeType="String"/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="street" inverseEntity="Location"/>
+    </entity>
     <entity name="User" representedClassName="UserMO" syncable="YES" codeGenerationType="class">
         <attribute name="email" attributeType="String"/>
+        <attribute name="gender" attributeType="String"/>
         <attribute name="isFavourite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isHidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="phone" attributeType="String"/>
+        <relationship name="location" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="user" inverseEntity="Location"/>
         <relationship name="name" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="user" inverseEntity="Name"/>
         <relationship name="picture" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="user" inverseEntity="Picture"/>
+        <relationship name="registered" maxCount="1" deletionRule="Nullify" destinationEntity="Register" inverseName="user" inverseEntity="Register"/>
     </entity>
 </model>

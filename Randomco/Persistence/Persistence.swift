@@ -21,7 +21,7 @@ struct CoreDataStack: PersistentStore {
 
     private let container: NSPersistentContainer
     private let isStoreLoaded = CurrentValueSubject<Bool, Error>(false)
-    private let bgQueue = DispatchQueue(label: "coredata")
+    private let bgQueue = DispatchQueue(label: "CoreDataStack")
 
     static let shared = CoreDataStack()
 

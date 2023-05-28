@@ -32,6 +32,7 @@ extension UserMO {
     func store(user: User) {
         guard let context = managedObjectContext else { return }
 
+        self.gender = user.gender
         self.phone = user.phone
         self.email = user.email
         self.isFavourite = user.isFavourite
@@ -42,6 +43,12 @@ extension UserMO {
 
         self.picture = PictureMO.insertNew(in: context)
         self.picture?.store(picture: user.picture)
+
+        self.location = LocationMO.insertNew(in: context)
+        self.location?.store(location: user.location)
+
+        self.registered = RegisterMO.insertNew(in: context)
+        self.registered?.store(register: user.registered)
     }
 }
 
@@ -60,5 +67,31 @@ extension PictureMO {
         self.thumbnail = picture.thumbnail
         self.medium = picture.medium
         self.large = picture.large
+    }
+}
+
+extension StreetMO: ManagedObject {}
+extension StreetMO {
+    func store(street: User.Location.Street) {
+        self.name = street.name
+        self.number = Int16(street.number)
+    }
+}
+
+extension LocationMO: ManagedObject {}
+extension LocationMO {
+    func store(location: User.Location) {
+        self.city = location.city
+        self.state = location.state
+
+        self.street = StreetMO.insertNew(in: managedObjectContext!)
+        self.street?.store(street: location.street)
+    }
+}
+
+extension RegisterMO: ManagedObject {}
+extension RegisterMO {
+    func store(register: User.Register) {
+        self.date = register.date
     }
 }
