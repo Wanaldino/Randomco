@@ -36,7 +36,7 @@ struct UserDBRepository {
             .update({ context in
                 try users.forEach { user in
                     let userMO: UserMO
-                    let exists = UserMO.exists(user: user)
+                    let exists = UserMO.user(user)
                     if let _userMO = try context.fetch(exists).first {
                         userMO = _userMO
                     } else {
@@ -66,7 +66,7 @@ extension UserMO {
         return request
     }
 
-    static func exists(user: User) -> NSFetchRequest<UserMO> {
+    static func user(_ user: User) -> NSFetchRequest<UserMO> {
         let request = justOne()
         request.predicate = NSPredicate(format: "email = %@", user.email)
         return request
