@@ -35,9 +35,27 @@ struct UserInteractor {
             .map { users in
                 users.map(User.init)
             }
-            .flatMap({ [userDBRepository] users in
+            .flatMap { [userDBRepository] fetchedUsers in
+                userDBRepository.allUsers()
+                    .flatMap { storedUsers in
+                        var _users = [User]()
+                        fetchedUsers.forEach { user in
+                            if let storedUser = storedUsers.first(where: { $0.id == user.id }) {
+                                var user = user
+                                user.isHidden = storedUser.isHidden
+                                user.isFavourite = storedUser.isFavourite
+                                _users.append(user)
+                            } else {
+                                _users.append(user)
+                            }
+                        }
+                        return Just(_users).setFailureType(to: Error.self).eraseToAnyPublisher()
+                    }
+                    .eraseToAnyPublisher()
+            }
+            .flatMap { [userDBRepository] users in
                 userDBRepository.store(users: users)
-            })
+            }
             .eraseToAnyPublisher()
     }
 

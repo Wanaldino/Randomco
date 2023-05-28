@@ -19,13 +19,39 @@ struct UserDBRepository {
             .eraseToAnyPublisher()
     }
 
-    func users() -> AnyPublisher<[User], Error> {
-        let request = UserMO.users()
+    func _users(for request: NSFetchRequest<UserMO>) -> AnyPublisher<[User], Error> {
         return persistentStore
             .fetch(request)
             .flatMap({ userMO in
                 persistentStore.map(values: userMO) { value in
                     User(from: value)
+                }
+            })
+            .eraseToAnyPublisher()
+    }
+
+    func allUsers() -> AnyPublisher<[User], Error> {
+        _users(for: UserMO.allUsers())
+    }
+
+    func users() -> AnyPublisher<[User], Error> {
+        _users(for: UserMO.users())
+    }
+
+    func user(_ user: User) -> AnyPublisher<User, Error> {
+        let request = UserMO.user(user)
+        return persistentStore
+            .fetch(request)
+            .flatMap({ userMO in
+                persistentStore.map(values: userMO) { value in
+                    User(from: value)
+                }
+            })
+            .flatMap({ users in
+                if let user = users.first {
+                    return Just(user).setFailureType(to: Error.self).eraseToAnyPublisher()
+                } else {
+                    return Fail<User, Error>(error: NSError(domain: "", code: 2)).eraseToAnyPublisher()
                 }
             })
             .eraseToAnyPublisher()
@@ -54,6 +80,10 @@ extension UserMO {
         let request = newFetchRequest()
         request.fetchLimit = 1
         return request
+    }
+
+    static func allUsers() -> NSFetchRequest<UserMO> {
+        newFetchRequest()
     }
 
     static func users() -> NSFetchRequest<UserMO> {
