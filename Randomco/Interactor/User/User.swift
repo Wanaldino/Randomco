@@ -14,7 +14,7 @@ struct User {
         let last: String
 
         var fullName: String {
-            String(format: "%@ %@ %@", title, first, last)
+            String(format: "%@ %@", first, last)
         }
 
         init(title: String, first: String, last: String) {
