@@ -72,6 +72,7 @@
 		D2357A472A23891000433D49 /* UserDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetail.swift; sourceTree = "<group>"; };
 		D2357A492A24B2C700433D49 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		D2357A4B2A24B54100433D49 /* Environment + AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment + AppState.swift"; sourceTree = "<group>"; };
+		D2357A502A25060700433D49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +123,7 @@
 		D23579F52A20B65200433D49 /* Randomco */ = {
 			isa = PBXGroup;
 			children = (
+				D2357A502A25060700433D49 /* Info.plist */,
 				D2357A412A2250F000433D49 /* Persistence */,
 				D2357A372A20E04700433D49 /* View */,
 				D2357A312A20CAB900433D49 /* Interactor */,
@@ -539,7 +541,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Randomco/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = Randomco/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -567,7 +569,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Randomco/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = Randomco/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
