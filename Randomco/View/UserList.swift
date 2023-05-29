@@ -49,24 +49,28 @@ struct UserList: View {
     func ListView() -> some View {
         List {
             ForEach(users) { user in
-                UserCell(user: user)
-                    .swipeActions(edge: .trailing) {
-                        Button(action: {
-                            favourite(user)
-                        }, label: {
-                            let image = user.isFavourite ? "star.slash" : "star"
-                            Label("Favourite", systemImage: image)
-                        })
-                        .tint(.yellow)
+                NavigationLink {
+                    UserDetail(user: user)
+                } label: {
+                    UserCell(user: user)
+                        .swipeActions(edge: .trailing) {
+                            Button(action: {
+                                favourite(user)
+                            }, label: {
+                                let image = user.isFavourite ? "star.slash" : "star"
+                                Label("Favourite", systemImage: image)
+                            })
+                            .tint(.yellow)
 
-                        Button(action: {
-                            delete(user)
-                        }, label: {
-                            Label("Delete", systemImage: "trash")
-                        })
-                        .tint(.red)
-                    }
-                    .listRowBackground(user.isFavourite ? Color.yellow : nil)
+                            Button(action: {
+                                delete(user)
+                            }, label: {
+                                Label("Delete", systemImage: "trash")
+                            })
+                            .tint(.red)
+                        }
+                        .listRowBackground(user.isFavourite ? Color.yellow : nil)
+                }
             }
         }
     }
