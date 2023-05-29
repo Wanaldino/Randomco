@@ -6,72 +6,64 @@
 //
 
 import CoreData
-import Combine
 
 struct UserDBRepository {
-    let persistentStore: PersistentStore = CoreDataStack()
+    let persistentStore: PersistentStore
 
-    func hasUsers() -> AnyPublisher<Bool, Error> {
+    init(persistentStore: PersistentStore = CoreDataStack.shared) {
+        self.persistentStore = persistentStore
+    }
+
+    func hasUsers() async throws -> Bool {
         let request = UserMO.justOne()
-        return persistentStore
-            .count(request)
-            .map({ $0 > 0 })
-            .eraseToAnyPublisher()
+        let count = try await persistentStore.count(request)
+        return count > 0
     }
 
-    func _users(for request: NSFetchRequest<UserMO>) -> AnyPublisher<[User], Error> {
-        return persistentStore
-            .fetch(request)
-            .flatMap({ userMO in
-                persistentStore.map(values: userMO) { value in
-                    User(from: value)
-                }
-            })
-            .eraseToAnyPublisher()
+    func _users(for request: NSFetchRequest<UserMO>) async throws -> [User] {
+        let usersMO = try await persistentStore.fetch(request)
+        let users = try await persistentStore.map(values: usersMO) { value in
+            User(from: value)
+        }
+        return users
     }
 
-    func allUsers() -> AnyPublisher<[User], Error> {
-        _users(for: UserMO.allUsers())
+    func allUsers() async throws -> [User] {
+        let request = UserMO.allUsers()
+        return try await _users(for: request)
     }
 
-    func users() -> AnyPublisher<[User], Error> {
-        _users(for: UserMO.users())
+    func users() async throws -> [User] {
+        let request = UserMO.users()
+        return try await _users(for: request)
     }
 
-    func user(_ user: User) -> AnyPublisher<User, Error> {
+    func user(_ user: User) async throws -> User {
         let request = UserMO.user(user)
-        return persistentStore
-            .fetch(request)
-            .flatMap({ userMO in
-                persistentStore.map(values: userMO) { value in
-                    User(from: value)
-                }
-            })
-            .flatMap({ users in
-                if let user = users.first {
-                    return Just(user).setFailureType(to: Error.self).eraseToAnyPublisher()
-                } else {
-                    return Fail<User, Error>(error: NSError(domain: "", code: 2)).eraseToAnyPublisher()
-                }
-            })
-            .eraseToAnyPublisher()
+        let userMO = try await persistentStore.fetch(request)
+        let user = try await persistentStore.map(values: userMO) { user in
+            User(from: user)
+        }
+        if let user = user.first {
+            return user
+        } else {
+            throw NSError(domain: "", code: 1)
+        }
     }
 
-    func store(users: [User]) -> AnyPublisher<Void, Error> {
-        return persistentStore
-            .update({ context in
-                try users.forEach { user in
-                    let userMO: UserMO
-                    let exists = UserMO.user(user)
-                    if let _userMO = try context.fetch(exists).first {
-                        userMO = _userMO
-                    } else {
-                        userMO = UserMO.insertNew(in: context)
-                    }
-                    userMO.store(user: user)
+    func store(users: [User]) async throws {
+        try await persistentStore.update { context in
+            try users.forEach { user in
+                let userMO: UserMO
+                let exists = UserMO.user(user)
+                if let _userMO = try context.fetch(exists).first {
+                    userMO = _userMO
+                } else {
+                    userMO = UserMO.insertNew(in: context)
                 }
-            })
-            .eraseToAnyPublisher()
+                userMO.store(user: user)
+            }
+        }
     }
 }
 

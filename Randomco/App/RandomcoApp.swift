@@ -13,6 +13,7 @@ struct RandomcoApp: App {
         WindowGroup {
             UserList()
                 .environment(\.userInteractor, .defaultValue)
+                .environment(\.appState, .defaultValue)
         }
     }
 }

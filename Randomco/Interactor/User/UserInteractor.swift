@@ -11,67 +11,58 @@ import Combine
 struct UserInteractor {
     let userRepository: UserRepository
     let userDBRepository: UserDBRepository
+    let appState: AppState
 
-    func load() -> AnyPublisher<[User], Error> {
-        userDBRepository
-            .hasUsers()
-            .flatMap { hasUsers in
-                if hasUsers {
-                    return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
-                } else {
-                    return self.fetchUsers()
-                }
-            }
-            .flatMap { [userDBRepository] _ in
-                userDBRepository.users()
-            }
-            .eraseToAnyPublisher()
+    init(
+        userRepository: UserRepository = UserRepository(),
+        userDBRepository: UserDBRepository = UserDBRepository(),
+        appState: AppState = AppState.defaultValue
+    ) {
+        self.userRepository = userRepository
+        self.userDBRepository = userDBRepository
+        self.appState = appState
     }
 
-    func fetchUsers() -> AnyPublisher<Void, Error> {
-        userRepository
-            .fetchUsers()
-            .map(\.results)
-            .map { users in
-                users.map(User.init)
-            }
-            .flatMap { [userDBRepository] fetchedUsers in
-                userDBRepository.allUsers()
-                    .flatMap { storedUsers in
-                        var _users = [User]()
-                        fetchedUsers.forEach { user in
-                            if let storedUser = storedUsers.first(where: { $0.id == user.id }) {
-                                var user = user
-                                user.isHidden = storedUser.isHidden
-                                user.isFavourite = storedUser.isFavourite
-                                _users.append(user)
-                            } else {
-                                _users.append(user)
-                            }
-                        }
-                        return Just(_users).setFailureType(to: Error.self).eraseToAnyPublisher()
-                    }
-                    .eraseToAnyPublisher()
-            }
-            .flatMap { [userDBRepository] users in
-                userDBRepository.store(users: users)
-            }
-            .eraseToAnyPublisher()
+    func load() async throws {
+        if try await userDBRepository.hasUsers() == false {
+            try await fetchUsers()
+        }
+
+        let users = try await userDBRepository.users()
+        await appState.setUsers(users: users)
     }
 
-    func favourite(_ user: User) -> AnyPublisher<Void, Error> {
+    func fetchUsers() async throws {
+        let usersResponse = try await userRepository.fetchUsers()
+        let fetchedUsers = usersResponse.results.map(User.init)
+        let storedUsers = try await userDBRepository.allUsers()
+
+        var users = [User]()
+        fetchedUsers.forEach { user in
+            if let storedUser = storedUsers.first(where: { $0.id == user.id }) {
+                var user = user
+                user.isHidden = storedUser.isHidden
+                user.isFavourite = storedUser.isFavourite
+                users.append(user)
+            } else {
+                users.append(user)
+            }
+        }
+        try await userDBRepository.store(users: users)
+        try await load()
+    }
+
+    func favourite(_ user: User) async throws {
         var user = user
         user.isFavourite.toggle()
-        return userDBRepository
-            .store(users: [user])
-            .eraseToAnyPublisher()
+        try await userDBRepository.store(users: [user])
+        try await load()
     }
 
-    func delete(_ user: User) -> AnyPublisher<Void, Error> {
+    func delete(_ user: User) async throws {
         var user = user
         user.isHidden = true
-        return userDBRepository
-            .store(users: [user])
-            .eraseToAnyPublisher()
+        try await userDBRepository.store(users: [user])
+        try await load()
     }
 }

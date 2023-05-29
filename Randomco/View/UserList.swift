@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
-import Combine
 
 struct UserList: View {
     @Environment(\.userInteractor) var userInteractor
+    @Environment(\.appState) var appState
+
     @State var users: [User] = []
-    @State fileprivate(set) var subscriptions = Set<AnyCancellable>()
 
     var body: some View {
         NavigationView {
             content
+                .onReceive(appState.users, perform: { users in
+                    withAnimation {
+                        self.users = users
+                    }
+                })
                 .navigationTitle("Users")
                 .navigationBarItems(trailing: Button(action: loadMore) {
                     Image(systemName: "plus")
@@ -53,24 +58,24 @@ struct UserList: View {
                     UserDetail(user: user)
                 } label: {
                     UserCell(user: user)
-                        .swipeActions(edge: .trailing) {
-                            Button(action: {
-                                favourite(user)
-                            }, label: {
-                                let image = user.isFavourite ? "star.slash" : "star"
-                                Label("Favourite", systemImage: image)
-                            })
-                            .tint(.yellow)
-
-                            Button(action: {
-                                delete(user)
-                            }, label: {
-                                Label("Delete", systemImage: "trash")
-                            })
-                            .tint(.red)
-                        }
-                        .listRowBackground(user.isFavourite ? Color.yellow : nil)
                 }
+                .swipeActions(edge: .trailing) {
+                    Button(action: {
+                        favourite(user)
+                    }, label: {
+                        let image = user.isFavourite ? "star.slash" : "star"
+                        Label("Favourite", systemImage: image)
+                    })
+                    .tint(.yellow)
+
+                    Button(action: {
+                        delete(user)
+                    }, label: {
+                        Label("Delete", systemImage: "trash")
+                    })
+                    .tint(.red)
+                }
+                .listRowBackground(user.isFavourite ? Color.yellow : nil)
             }
         }
     }
@@ -78,70 +83,35 @@ struct UserList: View {
 
 extension UserList {
     func retrieveUsers() {
-        userInteractor.load()
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                case .finished:
-                    print("finished")
-                }
-            } receiveValue: { response in
-                withAnimation {
-                    self.users = response
-                }
-            }
-            .store(in: &subscriptions)
+        Task {
+            try? await userInteractor.load()
+        }
     }
 
     func loadMore() {
-        userInteractor.fetchUsers()
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                case .finished:
-                    print("finished")
-                }
-            } receiveValue: { _ in
-                retrieveUsers()
-            }
-            .store(in: &subscriptions)
+        Task {
+            try? await userInteractor.fetchUsers()
+        }
     }
 
     func favourite(_ user: User) {
-        userInteractor.favourite(user)
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                case .finished:
-                    print("finished")
-                }
-            } receiveValue: { _ in
-                retrieveUsers()
-            }
-            .store(in: &subscriptions)
+        Task {
+            try? await userInteractor.favourite(user)
+        }
     }
 
     func delete(_ user: User) {
-        userInteractor.delete(user)
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                case .finished:
-                    print("finished")
-                }
-            } receiveValue: { _ in
-                retrieveUsers()
-            }
-            .store(in: &subscriptions)
+        Task {
+            try? await userInteractor.delete(user)
+        }
     }
 }
 
 struct UserList_Previews: PreviewProvider {
     static var previews: some View {
         UserList()
+            .environment(\.userInteractor, .defaultValue)
+            .environment(\.appState, .defaultValue)
+            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
     }
 }

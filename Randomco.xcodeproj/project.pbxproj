@@ -26,6 +26,8 @@
 		D2357A432A22510600433D49 /* ManagedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A422A22510600433D49 /* ManagedObject.swift */; };
 		D2357A462A22919500433D49 /* AnimatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A452A22919500433D49 /* AnimatePlaceholder.swift */; };
 		D2357A482A23891000433D49 /* UserDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A472A23891000433D49 /* UserDetail.swift */; };
+		D2357A4A2A24B2C700433D49 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A492A24B2C700433D49 /* AppState.swift */; };
+		D2357A4C2A24B54100433D49 /* Environment + AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A4B2A24B54100433D49 /* Environment + AppState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		D2357A422A22510600433D49 /* ManagedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObject.swift; sourceTree = "<group>"; };
 		D2357A452A22919500433D49 /* AnimatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatePlaceholder.swift; sourceTree = "<group>"; };
 		D2357A472A23891000433D49 /* UserDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetail.swift; sourceTree = "<group>"; };
+		D2357A492A24B2C700433D49 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		D2357A4B2A24B54100433D49 /* Environment + AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment + AppState.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				D2357A3C2A2248F200433D49 /* User */,
+				D2357A492A24B2C700433D49 /* AppState.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 			children = (
 				D23579F62A20B65200433D49 /* RandomcoApp.swift */,
 				D2357A352A20DE0E00433D49 /* Environment + UserInteractor.swift */,
+				D2357A4B2A24B54100433D49 /* Environment + AppState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -363,8 +369,10 @@
 				D2357A432A22510600433D49 /* ManagedObject.swift in Sources */,
 				D2357A362A20DE0E00433D49 /* Environment + UserInteractor.swift in Sources */,
 				D2357A032A20B65300433D49 /* Randomco.xcdatamodeld in Sources */,
+				D2357A4A2A24B2C700433D49 /* AppState.swift in Sources */,
 				D2357A2D2A20C91500433D49 /* UserRepository.swift in Sources */,
 				D2357A3B2A20E30A00433D49 /* UserCell.swift in Sources */,
+				D2357A4C2A24B54100433D49 /* Environment + AppState.swift in Sources */,
 				D2357A002A20B65300433D49 /* Persistence.swift in Sources */,
 				D2357A402A224F9000433D49 /* UserDBRepository.swift in Sources */,
 				D2357A302A20C9A000433D49 /* UserListResponse.swift in Sources */,
