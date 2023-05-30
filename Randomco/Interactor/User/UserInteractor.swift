@@ -8,7 +8,14 @@
 import Foundation
 import Combine
 
-struct UserInteractor {
+protocol UserInteractor {
+    func load() async throws
+    func fetch() async throws
+    func favourite(_ user: User) async throws
+    func delete(_ user: User) async throws
+}
+
+class DefaultUserInteractor: UserInteractor {
     let userRepository: UserRepository
     let userDBRepository: UserDBRepository
     let appState: AppState
@@ -16,7 +23,7 @@ struct UserInteractor {
     init(
         userRepository: UserRepository = UserRepository(),
         userDBRepository: UserDBRepository = UserDBRepository(),
-        appState: AppState = AppState.defaultValue
+        appState: AppState = .shared
     ) {
         self.userRepository = userRepository
         self.userDBRepository = userDBRepository
@@ -25,19 +32,14 @@ struct UserInteractor {
 
     func load() async throws {
         if try await userDBRepository.hasUsers() == false {
-            try await fetchUsers()
+            try await fetch()
         }
 
         let users = try await userDBRepository.users()
         await appState.setUsers(users: users)
     }
 
-    func loadFavourites() async throws {
-        let users = try await userDBRepository.favouriteUsers()
-        await appState.setFavouriteUsers(users: users)
-    }
-
-    func fetchUsers() async throws {
+    func fetch() async throws {
         let usersResponse = try await userRepository.fetchUsers()
         let fetchedUsers = usersResponse.results.map(User.init)
         let storedUsers = try await userDBRepository.allUsers()
@@ -62,7 +64,6 @@ struct UserInteractor {
         user.isFavourite.toggle()
         try await userDBRepository.store(users: [user])
         try await load()
-        try await loadFavourites()
     }
 
     func delete(_ user: User) async throws {

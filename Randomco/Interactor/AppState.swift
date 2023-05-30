@@ -8,17 +8,21 @@
 import SwiftUI
 import Combine
 
-struct AppState {
+protocol AppStateInput {
+    func setUsers(users: [User])
+}
+
+protocol AppStateOutput {
+    var users: CurrentValueSubject<[User], Never> { get }
+}
+
+struct AppState: AppStateInput, AppStateOutput {
+    static let shared = AppState()
+
     var users = CurrentValueSubject<[User], Never>([])
-    var favouriteUsers = CurrentValueSubject<[User], Never>([])
 
     @MainActor
     func setUsers(users: [User]) {
         self.users.send(users)
-    }
-
-    @MainActor
-    func setFavouriteUsers(users: [User]) {
-        self.favouriteUsers.send(users)
     }
 }

@@ -18,15 +18,18 @@ protocol UserListViewModel: ObservableObject {
 }
 
 class DefaultUserListViewModel: UserListViewModel {
-    let appState = AppState.defaultValue
-    let interactor = UserInteractor()
+    let appState = AppState.shared
+    let interactor: UserInteractor
 
     @Published var users: [User] = []
     fileprivate var cancelables = Set<AnyCancellable>()
 
     var canLoadMore: Bool { true }
+    var canRemove: Bool { true }
 
-    init() {
+    init(interactor: UserInteractor = DefaultUserInteractor()) {
+        self.interactor = interactor
+
         bind()
     }
 
@@ -45,7 +48,7 @@ class DefaultUserListViewModel: UserListViewModel {
     func loadMore() {
         guard canLoadMore else { return }
         Task {
-            try? await interactor.fetchUsers()
+            try? await interactor.fetch()
         }
     }
 
@@ -66,14 +69,10 @@ class FavouriteUserListViewModel: DefaultUserListViewModel {
     override var canLoadMore: Bool { false }
 
     override func bind() {
-        appState.favouriteUsers.sink { users in
+        appState.users.map { users in
+            users.filter(\.isFavourite)
+        }.sink { users in
             self.users = users
         }.store(in: &cancelables)
-    }
-
-    override func retrieveUsers() {
-        Task {
-            try? await interactor.loadFavourites()
-        }
     }
 }

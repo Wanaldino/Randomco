@@ -85,7 +85,7 @@ struct UserList<Model>: View where Model: UserListViewModel {
 
 struct UserList_Previews: PreviewProvider {
     static var previews: some View {
-        UserList(viewModel: DefaultUserListViewModel())
+        UserList(viewModel: DefaultUserListViewModel(interactor: DefaultUserInteractor()))
             .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
     }
 }
