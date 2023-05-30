@@ -11,9 +11,21 @@ import SwiftUI
 struct RandomcoApp: App {
     var body: some Scene {
         WindowGroup {
-            UserList()
-                .environment(\.userInteractor, .defaultValue)
-                .environment(\.appState, .defaultValue)
+            TabView {
+                UserList()
+                    .environment(\.userInteractor, .defaultValue)
+                    .environment(\.appState, .defaultValue)
+                    .tabItem {
+                        Label("List", systemImage: "person")
+                    }
+
+                UserList()
+                    .environment(\.userInteractor, .defaultValue)
+                    .environment(\.appState, .defaultValue)
+                    .tabItem {
+                        Label("Favourites", systemImage: "star")
+                    }
+            }
         }
     }
 }
