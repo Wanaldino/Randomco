@@ -7,31 +7,33 @@
 
 import SwiftUI
 
-struct UserList: View {
-    @Environment(\.userInteractor) var userInteractor
-    @Environment(\.appState) var appState
+struct UserList<Model>: View where Model: UserListViewModel {
+    @ObservedObject var viewModel: Model
 
-    @State var users: [User] = []
+    init(viewModel: Model) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         NavigationView {
             content
-                .onReceive(appState.users, perform: { users in
-                    withAnimation {
-                        self.users = users
-                    }
-                })
                 .navigationTitle("Users")
-                .navigationBarItems(trailing: Button(action: loadMore) {
-                    Image(systemName: "plus")
-                })
+                .toolbar {
+                    if viewModel.canLoadMore {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: viewModel.loadMore) {
+                                Image(systemName: "plus")
+                            }
+                        }
+                    }
+                }
 
         }
     }
 
     @ViewBuilder
     var content: some View {
-        if users.isEmpty {
+        if viewModel.users.isEmpty {
             EmptyView()
         } else {
             ListView()
@@ -47,13 +49,13 @@ struct UserList: View {
                     .animatePlaceholder()
             }
         }
-        .onAppear(perform: retrieveUsers)
+        .onAppear(perform: viewModel.retrieveUsers)
     }
 
     @ViewBuilder
     func ListView() -> some View {
         List {
-            ForEach(users) { user in
+            ForEach(viewModel.users) { user in
                 NavigationLink {
                     UserDetail(user: user)
                 } label: {
@@ -61,7 +63,7 @@ struct UserList: View {
                 }
                 .swipeActions(edge: .trailing) {
                     Button(action: {
-                        favourite(user)
+                        viewModel.favourite(user)
                     }, label: {
                         let image = user.isFavourite ? "star.slash" : "star"
                         Label("Favourite", systemImage: image)
@@ -69,7 +71,7 @@ struct UserList: View {
                     .tint(.yellow)
 
                     Button(action: {
-                        delete(user)
+                        viewModel.delete(user)
                     }, label: {
                         Label("Delete", systemImage: "trash")
                     })
@@ -81,37 +83,9 @@ struct UserList: View {
     }
 }
 
-extension UserList {
-    func retrieveUsers() {
-        Task {
-            try? await userInteractor.load()
-        }
-    }
-
-    func loadMore() {
-        Task {
-            try? await userInteractor.fetchUsers()
-        }
-    }
-
-    func favourite(_ user: User) {
-        Task {
-            try? await userInteractor.favourite(user)
-        }
-    }
-
-    func delete(_ user: User) {
-        Task {
-            try? await userInteractor.delete(user)
-        }
-    }
-}
-
 struct UserList_Previews: PreviewProvider {
     static var previews: some View {
-        UserList()
-            .environment(\.userInteractor, .defaultValue)
-            .environment(\.appState, .defaultValue)
+        UserList(viewModel: DefaultUserListViewModel())
             .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
     }
 }

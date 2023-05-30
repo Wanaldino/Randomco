@@ -12,16 +12,12 @@ struct RandomcoApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                UserList()
-                    .environment(\.userInteractor, .defaultValue)
-                    .environment(\.appState, .defaultValue)
+                UserList(viewModel: DefaultUserListViewModel())
                     .tabItem {
                         Label("List", systemImage: "person")
                     }
 
-                UserList()
-                    .environment(\.userInteractor, .defaultValue)
-                    .environment(\.appState, .defaultValue)
+                UserList(viewModel: FavouriteUserListViewModel())
                     .tabItem {
                         Label("Favourites", systemImage: "star")
                     }

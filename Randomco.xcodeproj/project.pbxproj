@@ -28,6 +28,7 @@
 		D2357A482A23891000433D49 /* UserDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A472A23891000433D49 /* UserDetail.swift */; };
 		D2357A4A2A24B2C700433D49 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A492A24B2C700433D49 /* AppState.swift */; };
 		D2357A4C2A24B54100433D49 /* Environment + AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A4B2A24B54100433D49 /* Environment + AppState.swift */; };
+		D2357A552A260DAC00433D49 /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A542A260DAC00433D49 /* UserListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		D2357A492A24B2C700433D49 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		D2357A4B2A24B54100433D49 /* Environment + AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment + AppState.swift"; sourceTree = "<group>"; };
 		D2357A502A25060700433D49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D2357A542A260DAC00433D49 /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,8 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				D2357A442A22918200433D49 /* Modifiers */,
-				D2357A292A20C12000433D49 /* UserList.swift */,
-				D2357A3A2A20E30A00433D49 /* UserCell.swift */,
+				D2357A522A260D6000433D49 /* UserList */,
 				D2357A472A23891000433D49 /* UserDetail.swift */,
 			);
 			path = View;
@@ -233,6 +234,16 @@
 				D2357A452A22919500433D49 /* AnimatePlaceholder.swift */,
 			);
 			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		D2357A522A260D6000433D49 /* UserList */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A292A20C12000433D49 /* UserList.swift */,
+				D2357A542A260DAC00433D49 /* UserListViewModel.swift */,
+				D2357A3A2A20E30A00433D49 /* UserCell.swift */,
+			);
+			path = UserList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,6 +382,7 @@
 				D2357A432A22510600433D49 /* ManagedObject.swift in Sources */,
 				D2357A362A20DE0E00433D49 /* Environment + UserInteractor.swift in Sources */,
 				D2357A032A20B65300433D49 /* Randomco.xcdatamodeld in Sources */,
+				D2357A552A260DAC00433D49 /* UserListViewModel.swift in Sources */,
 				D2357A4A2A24B2C700433D49 /* AppState.swift in Sources */,
 				D2357A2D2A20C91500433D49 /* UserRepository.swift in Sources */,
 				D2357A3B2A20E30A00433D49 /* UserCell.swift in Sources */,

@@ -20,7 +20,7 @@ struct UserDBRepository {
         return count > 0
     }
 
-    func _users(for request: NSFetchRequest<UserMO>) async throws -> [User] {
+    private func _users(for request: NSFetchRequest<UserMO>) async throws -> [User] {
         let usersMO = try await persistentStore.fetch(request)
         let users = try await persistentStore.map(values: usersMO) { value in
             User(from: value)
@@ -35,6 +35,11 @@ struct UserDBRepository {
 
     func users() async throws -> [User] {
         let request = UserMO.users()
+        return try await _users(for: request)
+    }
+
+    func favouriteUsers() async throws -> [User] {
+        let request = UserMO.favouriteUsers()
         return try await _users(for: request)
     }
 
@@ -92,6 +97,12 @@ extension UserMO {
     static func user(_ user: User) -> NSFetchRequest<UserMO> {
         let request = justOne()
         request.predicate = NSPredicate(format: "email = %@", user.email)
+        return request
+    }
+
+    static func favouriteUsers() -> NSFetchRequest<UserMO> {
+        let request = users()
+        request.predicate = NSPredicate(format: "isFavourite = true")
         return request
     }
 }

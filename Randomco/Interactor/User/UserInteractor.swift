@@ -32,6 +32,11 @@ struct UserInteractor {
         await appState.setUsers(users: users)
     }
 
+    func loadFavourites() async throws {
+        let users = try await userDBRepository.favouriteUsers()
+        await appState.setFavouriteUsers(users: users)
+    }
+
     func fetchUsers() async throws {
         let usersResponse = try await userRepository.fetchUsers()
         let fetchedUsers = usersResponse.results.map(User.init)
@@ -57,6 +62,7 @@ struct UserInteractor {
         user.isFavourite.toggle()
         try await userDBRepository.store(users: [user])
         try await load()
+        try await loadFavourites()
     }
 
     func delete(_ user: User) async throws {
