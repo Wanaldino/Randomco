@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Coordinates" representedClassName="CoordinatesMO" syncable="YES" codeGenerationType="class">
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="coordinates" inverseEntity="Location"/>
+    </entity>
     <entity name="Location" representedClassName="LocationMO" syncable="YES" codeGenerationType="class">
         <attribute name="city" attributeType="String"/>
         <attribute name="state" attributeType="String"/>
+        <relationship name="coordinates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Coordinates" inverseName="location" inverseEntity="Coordinates"/>
         <relationship name="street" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Street" inverseName="location" inverseEntity="Street"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="location" inverseEntity="User"/>
     </entity>

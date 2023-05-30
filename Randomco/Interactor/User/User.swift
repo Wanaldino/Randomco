@@ -65,18 +65,43 @@ struct User {
             }
         }
 
+        struct Coordinates {
+            let latitude: Double
+            let longitude: Double
+
+            init(latitude: Double, longitude: Double) {
+                self.latitude = latitude
+                self.longitude = longitude
+            }
+
+            init(from response: UserListResponse.User.Location.Coordinates) {
+                self.latitude = Double(response.latitude) ?? 0
+                self.longitude = Double(response.longitude) ?? 0
+            }
+
+            init?(from coordinatesMO: CoordinatesMO) {
+                self.init(
+                    latitude: coordinatesMO.latitude,
+                    longitude: coordinatesMO.longitude
+                )
+            }
+        }
+
         let street: Street
+        let coordinates: Coordinates
         let city: String
         let state: String
 
-        init(street: Street, city: String, state: String) {
+        init(street: Street, coordinates: Coordinates, city: String, state: String) {
             self.street = street
+            self.coordinates = coordinates
             self.city = city
             self.state = state
         }
 
         init(from response: UserListResponse.User.Location) {
             street = Street(from: response.street)
+            coordinates = Coordinates(from: response.coordinates)
             city = response.city
             state = response.state
         }
@@ -84,10 +109,12 @@ struct User {
         init?(from locationMO: LocationMO) {
             guard let city = locationMO.city,
                   let state = locationMO.state,
-                  let streetMO = locationMO.street, let street = Street(from: streetMO)
+                  let streetMO = locationMO.street, let street = Street(from: streetMO),
+                  let coordinatesMO = locationMO.coordinates, let coordinates = Coordinates(from: coordinatesMO)
             else { return nil }
 
             self.street = street
+            self.coordinates = coordinates
             self.city = city
             self.state = state
         }
@@ -212,6 +239,15 @@ extension User: Identifiable {
     var id: String { email }
 }
 
+import CoreLocation
+extension User.Location.Coordinates {
+    func distance(to coordinates: CLLocation) -> Double {
+        let location1 = CLLocation(latitude: latitude, longitude: longitude)
+
+        return location1.distance(from: coordinates)
+    }
+}
+
 extension User {
     static let mock = User(
         gender: "male",
@@ -224,6 +260,10 @@ extension User {
             street: Location.Street(
                 name: "Carrer Antonio cubells",
                 number: 22
+            ),
+            coordinates: Location.Coordinates(
+                latitude: 0,
+                longitude: 0
             ),
             city: "Valencia",
             state: "Comunitat Valenciana"

@@ -78,14 +78,27 @@ extension StreetMO {
     }
 }
 
+extension CoordinatesMO: ManagedObject {}
+extension CoordinatesMO {
+    func store(coordinates: User.Location.Coordinates) {
+        self.latitude = coordinates.latitude
+        self.longitude = coordinates.longitude
+    }
+}
+
 extension LocationMO: ManagedObject {}
 extension LocationMO {
     func store(location: User.Location) {
+        guard let context = managedObjectContext else { return }
+
         self.city = location.city
         self.state = location.state
 
-        self.street = StreetMO.insertNew(in: managedObjectContext!)
+        self.street = StreetMO.insertNew(in: context)
         self.street?.store(street: location.street)
+
+        self.coordinates = CoordinatesMO.insertNew(in: context)
+        self.coordinates?.store(coordinates: location.coordinates)
     }
 }
 

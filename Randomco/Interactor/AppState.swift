@@ -7,19 +7,22 @@
 
 import SwiftUI
 import Combine
+import CoreLocation
 
 protocol AppStateInput {
     func setUsers(users: [User])
 }
 
 protocol AppStateOutput {
-    var users: CurrentValueSubject<[User], Never> { get }
+    var users: CurrentValueSubject<[User]?, Error> { get }
+    var location: CurrentValueSubject<CLLocation?, Error> { get }
 }
 
 struct AppState: AppStateInput, AppStateOutput {
     static let shared = AppState()
 
-    var users = CurrentValueSubject<[User], Never>([])
+    var users = CurrentValueSubject<[User]?, Error>(nil)
+    var location = CurrentValueSubject<CLLocation?, Error>(nil)
 
     @MainActor
     func setUsers(users: [User]) {

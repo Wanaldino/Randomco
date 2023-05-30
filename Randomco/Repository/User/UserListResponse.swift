@@ -21,7 +21,13 @@ struct UserListResponse: Decodable {
                 let name: String
             }
 
+            struct Coordinates: Decodable {
+                let latitude: String
+                let longitude: String
+            }
+
             let street: Street
+            let coordinates: Coordinates
             let city: String
             let state: String
         }

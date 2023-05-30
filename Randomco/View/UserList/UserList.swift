@@ -33,15 +33,15 @@ struct UserList<Model>: View where Model: UserListViewModel {
 
     @ViewBuilder
     var content: some View {
-        if viewModel.users.isEmpty {
-            EmptyView()
+        if let users = viewModel.users {
+            ListView(users: users)
         } else {
-            ListView()
+            LoadingView()
         }
     }
 
     @ViewBuilder
-    func EmptyView() -> some View {
+    func LoadingView() -> some View {
         List {
             ForEach((0 ..< 3)) { _ in
                 UserCell(user: .mock)
@@ -53,9 +53,13 @@ struct UserList<Model>: View where Model: UserListViewModel {
     }
 
     @ViewBuilder
-    func ListView() -> some View {
+    func ListView(users: [User]) -> some View {
         List {
-            ForEach(viewModel.users) { user in
+            if users.isEmpty {
+                EmptyView()
+            }
+            
+            ForEach(users) { user in
                 NavigationLink {
                     UserDetail(user: user)
                 } label: {
@@ -80,6 +84,11 @@ struct UserList<Model>: View where Model: UserListViewModel {
                 .listRowBackground(user.isFavourite ? Color.yellow : nil)
             }
         }
+    }
+
+    @ViewBuilder
+    func EmptyView() -> some View {
+        Text("There are no users")
     }
 }
 

@@ -8,7 +8,7 @@
 import Combine
 
 protocol UserListViewModel: ObservableObject {
-    var users: [User] { get }
+    var users: [User]? { get }
     var canLoadMore: Bool { get }
 
     func retrieveUsers()
@@ -21,7 +21,8 @@ class DefaultUserListViewModel: UserListViewModel {
     let appState = AppState.shared
     let interactor: UserInteractor
 
-    @Published var users: [User] = []
+    @Published var users: [User]? = nil
+    @Published var error: Error? = nil
     fileprivate var cancelables = Set<AnyCancellable>()
 
     var canLoadMore: Bool { true }
@@ -34,9 +35,17 @@ class DefaultUserListViewModel: UserListViewModel {
     }
 
     func bind() {
-        appState.users.sink { users in
+        appState.users.sink { completion in
+            switch completion {
+            case .failure(let error):
+                self.error = error
+            case .finished:
+                print("finished")
+            }
+        } receiveValue: { users in
             self.users = users
-        }.store(in: &cancelables)
+        }
+        .store(in: &cancelables)
     }
 
     func retrieveUsers() {
@@ -69,10 +78,49 @@ class FavouriteUserListViewModel: DefaultUserListViewModel {
     override var canLoadMore: Bool { false }
 
     override func bind() {
-        appState.users.map { users in
-            users.filter(\.isFavourite)
-        }.sink { users in
-            self.users = users
-        }.store(in: &cancelables)
+        appState.users
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    self.error = error
+                case .finished:
+                    print("finished")
+                }
+            } receiveValue: { users in
+                self.users = users?.filter(\.isFavourite)
+            }
+            .store(in: &cancelables)
+    }
+}
+
+class NearUserListViewModel: DefaultUserListViewModel {
+    let locationInteractor: LocationInteractor
+
+    init(interactor: UserInteractor = DefaultUserInteractor(), locationInteractor: LocationInteractor = DefaultLocationInteractor()) {
+        self.locationInteractor = locationInteractor
+
+        super.init(interactor: interactor)
+
+        bind()
+    }
+
+
+    override func bind() {
+        appState.users
+            .zip(appState.location)
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    self.error = error
+                case .finished:
+                    print("finished")
+                }
+            } receiveValue: { users, location in
+                guard let location = location else { return self.locationInteractor.requestLocation() }
+                self.users = users?.filter { user in
+                    user.location.coordinates.distance(to: location) < 1000
+                }
+            }
+            .store(in: &cancelables)
     }
 }

@@ -21,6 +21,11 @@ struct RandomcoApp: App {
                     .tabItem {
                         Label("Favourites", systemImage: "star")
                     }
+
+                UserList(viewModel: NearUserListViewModel())
+                    .tabItem {
+                        Label("Near", systemImage: "person.3.fill")
+                    }
             }
         }
     }
