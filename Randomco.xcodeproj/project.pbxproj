@@ -12,7 +12,7 @@
 		D23579FE2A20B65300433D49 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D23579FD2A20B65300433D49 /* Preview Assets.xcassets */; };
 		D2357A002A20B65300433D49 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23579FF2A20B65300433D49 /* Persistence.swift */; };
 		D2357A032A20B65300433D49 /* Randomco.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2357A012A20B65300433D49 /* Randomco.xcdatamodeld */; };
-		D2357A0D2A20B65300433D49 /* RandomcoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A0C2A20B65300433D49 /* RandomcoTests.swift */; };
+		D2357A0D2A20B65300433D49 /* DefaultUserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A0C2A20B65300433D49 /* DefaultUserListViewModelTests.swift */; };
 		D2357A172A20B65300433D49 /* RandomcoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A162A20B65300433D49 /* RandomcoUITests.swift */; };
 		D2357A192A20B65300433D49 /* RandomcoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A182A20B65300433D49 /* RandomcoUITestsLaunchTests.swift */; };
 		D2357A2A2A20C12000433D49 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A292A20C12000433D49 /* UserList.swift */; };
@@ -29,6 +29,11 @@
 		D2357A552A260DAC00433D49 /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A542A260DAC00433D49 /* UserListViewModel.swift */; };
 		D2357A5D2A262FA200433D49 /* LocationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A5C2A262FA200433D49 /* LocationInteractor.swift */; };
 		D2357A602A2642F100433D49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2357A622A2642F100433D49 /* Localizable.strings */; };
+		D2357A652A264BF500433D49 /* MockAppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A642A264BF500433D49 /* MockAppState.swift */; };
+		D2357A672A264DDE00433D49 /* MockUserInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A662A264DDE00433D49 /* MockUserInteractor.swift */; };
+		D2357A682A26583600433D49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2357A622A2642F100433D49 /* Localizable.strings */; };
+		D2357A6A2A265B4600433D49 /* FavouriteUserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A692A265B4600433D49 /* FavouriteUserListViewModelTests.swift */; };
+		D2357A6C2A265C1400433D49 /* NearUserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A6B2A265C1400433D49 /* NearUserListViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +61,7 @@
 		D23579FF2A20B65300433D49 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		D2357A022A20B65300433D49 /* Randomco.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Randomco.xcdatamodel; sourceTree = "<group>"; };
 		D2357A082A20B65300433D49 /* RandomcoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomcoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2357A0C2A20B65300433D49 /* RandomcoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomcoTests.swift; sourceTree = "<group>"; };
+		D2357A0C2A20B65300433D49 /* DefaultUserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserListViewModelTests.swift; sourceTree = "<group>"; };
 		D2357A122A20B65300433D49 /* RandomcoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RandomcoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2357A162A20B65300433D49 /* RandomcoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomcoUITests.swift; sourceTree = "<group>"; };
 		D2357A182A20B65300433D49 /* RandomcoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomcoUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -76,6 +81,10 @@
 		D2357A5C2A262FA200433D49 /* LocationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInteractor.swift; sourceTree = "<group>"; };
 		D2357A612A2642F100433D49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D2357A632A2642F300433D49 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D2357A642A264BF500433D49 /* MockAppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppState.swift; sourceTree = "<group>"; };
+		D2357A662A264DDE00433D49 /* MockUserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserInteractor.swift; sourceTree = "<group>"; };
+		D2357A692A265B4600433D49 /* FavouriteUserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteUserListViewModelTests.swift; sourceTree = "<group>"; };
+		D2357A6B2A265C1400433D49 /* NearUserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearUserListViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,7 +159,11 @@
 		D2357A0B2A20B65300433D49 /* RandomcoTests */ = {
 			isa = PBXGroup;
 			children = (
-				D2357A0C2A20B65300433D49 /* RandomcoTests.swift */,
+				D2357A0C2A20B65300433D49 /* DefaultUserListViewModelTests.swift */,
+				D2357A692A265B4600433D49 /* FavouriteUserListViewModelTests.swift */,
+				D2357A6B2A265C1400433D49 /* NearUserListViewModelTests.swift */,
+				D2357A642A264BF500433D49 /* MockAppState.swift */,
+				D2357A662A264DDE00433D49 /* MockUserInteractor.swift */,
 			);
 			path = RandomcoTests;
 			sourceTree = "<group>";
@@ -376,6 +389,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2357A682A26583600433D49 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +423,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2357A0D2A20B65300433D49 /* RandomcoTests.swift in Sources */,
+				D2357A0D2A20B65300433D49 /* DefaultUserListViewModelTests.swift in Sources */,
+				D2357A6C2A265C1400433D49 /* NearUserListViewModelTests.swift in Sources */,
+				D2357A652A264BF500433D49 /* MockAppState.swift in Sources */,
+				D2357A672A264DDE00433D49 /* MockUserInteractor.swift in Sources */,
+				D2357A6A2A265B4600433D49 /* FavouriteUserListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

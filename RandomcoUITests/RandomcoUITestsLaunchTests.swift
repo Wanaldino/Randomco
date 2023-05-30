@@ -28,5 +28,10 @@ final class RandomcoUITestsLaunchTests: XCTestCase {
         attachment.name = "Launch Screen"
         attachment.lifetime = .keepAlways
         add(attachment)
+
+        //Check all tabs are selectable
+        app.buttons["favourites"].tap()
+        app.buttons["near"].tap()
+        app.buttons["list"].tap()
     }
 }

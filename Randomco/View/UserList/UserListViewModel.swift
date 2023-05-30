@@ -19,7 +19,7 @@ protocol UserListViewModel: ObservableObject {
 }
 
 class DefaultUserListViewModel: UserListViewModel {
-    let appState = AppState.shared
+    let appState: AppStateOutput
     let interactor: UserInteractor
 
     @Published var users: [User]? = nil
@@ -29,8 +29,9 @@ class DefaultUserListViewModel: UserListViewModel {
     var canLoadMore: Bool { true }
     var canRemove: Bool { true }
 
-    init(interactor: UserInteractor = DefaultUserInteractor()) {
+    init(interactor: UserInteractor = DefaultUserInteractor(), appState: AppStateOutput = AppState.shared) {
         self.interactor = interactor
+        self.appState = appState
 
         bind()
     }
@@ -97,12 +98,13 @@ class FavouriteUserListViewModel: DefaultUserListViewModel {
 class NearUserListViewModel: DefaultUserListViewModel {
     let locationInteractor: LocationInteractor
 
-    init(interactor: UserInteractor = DefaultUserInteractor(), locationInteractor: LocationInteractor = DefaultLocationInteractor()) {
+    init(
+        interactor: UserInteractor = DefaultUserInteractor(),
+        locationInteractor: LocationInteractor = DefaultLocationInteractor(),
+        appState: AppStateOutput = AppState.shared
+    ) {
         self.locationInteractor = locationInteractor
-
-        super.init(interactor: interactor)
-
-        bind()
+        super.init(interactor: interactor, appState: appState)
     }
 
 

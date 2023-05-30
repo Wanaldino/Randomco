@@ -15,16 +15,19 @@ struct RandomcoApp: App {
                 UserList(viewModel: DefaultUserListViewModel())
                     .tabItem {
                         Label("list", systemImage: "person")
+                            .accessibilityIdentifier("list")
                     }
 
                 UserList(viewModel: FavouriteUserListViewModel())
                     .tabItem {
                         Label("favourites", systemImage: "star")
+                            .accessibilityIdentifier("favourites")
                     }
 
                 UserList(viewModel: NearUserListViewModel())
                     .tabItem {
                         Label("near", systemImage: "person.3.fill")
+                            .accessibilityIdentifier("near")
                     }
             }
         }
