@@ -9,6 +9,7 @@ import Combine
 
 protocol UserListViewModel: ObservableObject {
     var users: [User]? { get }
+    var error: Error? { get }
     var canLoadMore: Bool { get }
 
     func retrieveUsers()

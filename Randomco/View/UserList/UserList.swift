@@ -33,7 +33,9 @@ struct UserList<Model>: View where Model: UserListViewModel {
 
     @ViewBuilder
     var content: some View {
-        if let users = viewModel.users {
+        if let _ = viewModel.error {
+            Text("Something was wrong.")
+        } else if let users = viewModel.users {
             ListView(users: users)
         } else {
             LoadingView()
