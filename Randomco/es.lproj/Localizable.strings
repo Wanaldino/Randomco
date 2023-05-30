@@ -1,0 +1,14 @@
+"list" = "Lista";
+"favourites" = "Favoritos";
+"near" = "Cerca";
+
+"users" = "Usuarios";
+"delete" = "Eliminar";
+"favourite" = "Favoritos";
+
+"generic_error" = "Algo ha ido mal.";
+"users_empty" = "No hay usuarios";
+
+"info" = "Información";
+"location" = "Localizacion";
+"register" = "Registro";

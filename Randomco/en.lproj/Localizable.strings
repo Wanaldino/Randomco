@@ -1,0 +1,14 @@
+"list" = "List";
+"favourites" = "Favourites";
+"near" = "Near";
+
+"users" = "Users";
+"delete" = "Delete";
+"favourite" = "Favourite";
+
+"generic_error" = "Something was wrong";
+"users_empty" = "There are no users";
+
+"info" = "Info";
+"location" = "Location";
+"register" = "Register";

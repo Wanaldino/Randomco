@@ -36,7 +36,7 @@ struct UserDetail: View {
                 Text(user.gender)
                     .font(.subheadline)
             } header: {
-                Text("Info")
+                Text("info")
                     .font(.headline)
             }
 
@@ -48,7 +48,7 @@ struct UserDetail: View {
                 Text(user.location.city)
                     .font(.subheadline)
             } header: {
-                Text("Location")
+                Text("location")
                     .font(.headline)
             }
 
@@ -56,7 +56,7 @@ struct UserDetail: View {
                 Text(user.registered.date, style: .date)
                     .font(.subheadline)
             } header: {
-                Text("Register")
+                Text("register")
                     .font(.headline)
             }
         }
