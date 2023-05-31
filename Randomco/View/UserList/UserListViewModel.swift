@@ -39,7 +39,6 @@ class DefaultUserListViewModel: UserListViewModel {
         appState.users
             .catch(handle(error:))
             .compactMap(filter(users:))
-            .eraseToAnyPublisher()
             .combineLatest($search, $searchKey)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .map(filter(users:by:on:))
