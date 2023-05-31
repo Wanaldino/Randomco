@@ -116,19 +116,15 @@ class NearUserListViewModel: DefaultUserListViewModel {
         super.init(interactor: interactor, appState: appState)
     }
 
-    override func bind() {
+    override var usersPublisher: AnyPublisher<[User], Never> {
         let location = appState.location
             .catch(handle(error:))
             .compactMap(filter(location:))
-            .eraseToAnyPublisher()
 
-        usersPublisher
+        return super.usersPublisher
             .zip(location)
-            .eraseToAnyPublisher()
             .map(filter)
-            .map(LoadingState.loaded)
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$state)
+            .eraseToAnyPublisher()
     }
 
     func handle(error: Error) -> AnyPublisher<CLLocation?, Never> {
