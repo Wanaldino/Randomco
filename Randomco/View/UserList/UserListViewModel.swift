@@ -12,6 +12,7 @@ import CoreLocation
 protocol UserListViewModel: ObservableObject {
     var state: LoadingState<[User]> { get }
     var search: String { get set }
+    var searchKey: SearchUserKey { get set }
     var searchHints: [String] { get }
     var canLoadMore: Bool { get }
 
@@ -26,6 +27,7 @@ class DefaultUserListViewModel: UserListViewModel {
 
     @Published var state: LoadingState<[User]> = .notLoaded
     @Published var search: String = ""
+    @Published var searchKey: SearchUserKey = .name
     @Published var searchHints: [String] = []
 
     fileprivate var cancelables = Set<AnyCancellable>()
@@ -38,9 +40,10 @@ class DefaultUserListViewModel: UserListViewModel {
             .catch(handle(error:))
             .compactMap(filter(users:))
             .eraseToAnyPublisher()
-            .combineLatest($search)
-            .receive(on: DispatchQueue.global())
-            .map(filter)
+            .combineLatest($search, $searchKey)
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .map(filter(users:by:on:))
+            .map(filter(users:))
             .eraseToAnyPublisher()
     }
 
@@ -53,16 +56,7 @@ class DefaultUserListViewModel: UserListViewModel {
 
     func bind() {
         usersPublisher
-            .map { users in
-                let lastIndex = min(users.count, 100)
-                let users = users[..<lastIndex]
-                let names = users.map(\.name)
-                let firstNames = names.map(\.first)
-                let lastNames = names.map(\.last)
-
-                let hints = firstNames + lastNames
-                return hints
-            }
+            .map(hints(of:))
             .map(Set.init)
             .map(Array.init)
             .map({ $0.sorted() })
@@ -73,6 +67,19 @@ class DefaultUserListViewModel: UserListViewModel {
             .map(LoadingState.loaded)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
+    }
+
+    func hints(of users: [User]) -> [String] {
+        users.map { user in
+            switch searchKey {
+            case .name:
+                return user.name.first
+            case .surname:
+                return user.name.last
+            case .email:
+                return user.email
+            }
+        }
     }
 
     func handle(error: Error) -> AnyPublisher<[User]?, Never> {
@@ -89,14 +96,22 @@ class DefaultUserListViewModel: UserListViewModel {
         }
     }
 
-    func filter(users: [User], by search: String) -> [User] {
-        users.filter({ $0.isHidden == false })
-            .filter { user in
-                if search.isEmpty { return true }
-                return user.name.first.range(of: search, options: .caseInsensitive) != nil ||
-                    user.name.last.range(of: search, options: .caseInsensitive) != nil ||
-                    user.email.range(of: search, options: .caseInsensitive) != nil
+    func filter(users: [User], by search: String, on key: SearchUserKey) -> [User] {
+        guard search.isEmpty == false else { return users }
+        return users.filter { user in
+            switch key {
+            case .name:
+                return user.name.first.range(of: search, options: .caseInsensitive) != nil
+            case .surname:
+                return user.name.last.range(of: search, options: .caseInsensitive) != nil
+            case .email:
+                return user.email.range(of: search, options: .caseInsensitive) != nil
             }
+        }
+    }
+
+    func filter(users: [User]) -> [User] {
+        users.filter({ $0.isHidden == false })
             .sorted(by: { $0.name.fullName < $1.name.fullName })
     }
 
@@ -130,8 +145,8 @@ class DefaultUserListViewModel: UserListViewModel {
 class FavouriteUserListViewModel: DefaultUserListViewModel {
     override var canLoadMore: Bool { false }
 
-    override func filter(users: [User], by search: String) -> [User] {
-        super.filter(users: users, by: search).filter(\.isFavourite)
+    override func filter(users: [User]) -> [User] {
+        super.filter(users: users).filter(\.isFavourite)
     }
 }
 
@@ -154,7 +169,7 @@ class NearUserListViewModel: DefaultUserListViewModel {
 
         return super.usersPublisher
             .combineLatest(location)
-            .map(filter)
+            .map(filter(users:by:))
             .eraseToAnyPublisher()
     }
 

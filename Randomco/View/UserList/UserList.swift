@@ -35,6 +35,13 @@ struct UserList<Model>: View where Model: UserListViewModel {
             ListView(users: users)
                 .searchable(text: $viewModel.search)
                 .searchSuggestions {
+                    Picker("Search", selection: $viewModel.searchKey) {
+                        ForEach(SearchUserKey.allCases) { key in
+                            Text(key.rawValue.capitalized)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    
                     ForEach(viewModel.searchHints, id: \.self) { hint in
                         Text(hint)
                             .searchCompletion(hint)
