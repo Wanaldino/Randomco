@@ -11,6 +11,8 @@ import CoreLocation
 
 protocol UserListViewModel: ObservableObject {
     var state: LoadingState<[User]> { get }
+    var search: String { get set }
+    var searchHints: [String] { get }
     var canLoadMore: Bool { get }
 
     func loadMore()
@@ -23,6 +25,9 @@ class DefaultUserListViewModel: UserListViewModel {
     let interactor: UserInteractor
 
     @Published var state: LoadingState<[User]> = .notLoaded
+    @Published var search: String = ""
+    @Published var searchHints: [String] = []
+
     fileprivate var cancelables = Set<AnyCancellable>()
 
     var canLoadMore: Bool { true }
@@ -32,7 +37,10 @@ class DefaultUserListViewModel: UserListViewModel {
         appState.users
             .catch(handle(error:))
             .compactMap(filter(users:))
-            .map(filter(users:))
+            .eraseToAnyPublisher()
+            .combineLatest($search)
+            .receive(on: DispatchQueue.global())
+            .map(filter)
             .eraseToAnyPublisher()
     }
 
@@ -44,6 +52,23 @@ class DefaultUserListViewModel: UserListViewModel {
     }
 
     func bind() {
+        usersPublisher
+            .map { users in
+                let lastIndex = min(users.count, 100)
+                let users = users[..<lastIndex]
+                let names = users.map(\.name)
+                let firstNames = names.map(\.first)
+                let lastNames = names.map(\.last)
+
+                let hints = firstNames + lastNames
+                return hints
+            }
+            .map(Set.init)
+            .map(Array.init)
+            .map({ $0.sorted() })
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$searchHints)
+
         usersPublisher
             .map(LoadingState.loaded)
             .receive(on: DispatchQueue.main)
@@ -64,8 +89,14 @@ class DefaultUserListViewModel: UserListViewModel {
         }
     }
 
-    func filter(users: [User]) -> [User] {
+    func filter(users: [User], by search: String) -> [User] {
         users.filter({ $0.isHidden == false })
+            .filter { user in
+                if search.isEmpty { return true }
+                return user.name.first.range(of: search, options: .caseInsensitive) != nil ||
+                    user.name.last.range(of: search, options: .caseInsensitive) != nil ||
+                    user.email.range(of: search, options: .caseInsensitive) != nil
+            }
             .sorted(by: { $0.name.fullName < $1.name.fullName })
     }
 
@@ -99,8 +130,8 @@ class DefaultUserListViewModel: UserListViewModel {
 class FavouriteUserListViewModel: DefaultUserListViewModel {
     override var canLoadMore: Bool { false }
 
-    override func filter(users: [User]) -> [User] {
-        super.filter(users: users).filter(\.isFavourite)
+    override func filter(users: [User], by search: String) -> [User] {
+        super.filter(users: users, by: search).filter(\.isFavourite)
     }
 }
 
@@ -122,7 +153,7 @@ class NearUserListViewModel: DefaultUserListViewModel {
             .compactMap(filter(location:))
 
         return super.usersPublisher
-            .zip(location)
+            .combineLatest(location)
             .map(filter)
             .eraseToAnyPublisher()
     }

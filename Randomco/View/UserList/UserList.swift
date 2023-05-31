@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct UserList<Model>: View where Model: UserListViewModel {
-    @ObservedObject var viewModel: Model
-
-    init(viewModel: Model) {
-        self.viewModel = viewModel
-    }
+    @StateObject var viewModel: Model
 
     var body: some View {
         NavigationView {
@@ -27,7 +23,6 @@ struct UserList<Model>: View where Model: UserListViewModel {
                         }
                     }
                 }
-
         }
     }
 
@@ -38,6 +33,13 @@ struct UserList<Model>: View where Model: UserListViewModel {
             LoadingView()
         case .loaded(let users):
             ListView(users: users)
+                .searchable(text: $viewModel.search)
+                .searchSuggestions {
+                    ForEach(viewModel.searchHints, id: \.self) { hint in
+                        Text(hint)
+                            .searchCompletion(hint)
+                    }
+                }
         case .error:
             Text("generic_error")
         }
