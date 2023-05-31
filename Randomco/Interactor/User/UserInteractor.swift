@@ -31,22 +31,22 @@ class DefaultUserInteractor: UserInteractor {
     }
 
     func load() async throws {
-        if try await userDBRepository.hasUsers() == false {
-            try await fetch()
+        guard try await userDBRepository.hasUsers() else {
+            return try await fetch()
         }
 
         let users = try await userDBRepository.users()
-        await appState.setUsers(users: users)
+        appState.set(users)
     }
 
     func fetch() async throws {
         let usersResponse = try await userRepository.fetchUsers()
         let fetchedUsers = usersResponse.results.map(User.init)
-        let storedUsers = try await userDBRepository.allUsers()
+        let storedUsers = try await userDBRepository.users()
 
         var users = [User]()
         fetchedUsers.forEach { user in
-            if let storedUser = storedUsers.first(where: { $0.id == user.id }) {
+            if let storedUser = storedUsers.first(where: { $0 == user }) {
                 var user = user
                 user.isHidden = storedUser.isHidden
                 user.isFavourite = storedUser.isFavourite
@@ -63,13 +63,13 @@ class DefaultUserInteractor: UserInteractor {
         var user = user
         user.isFavourite.toggle()
         try await userDBRepository.store(users: [user])
-        try await load()
+        appState.update([user])
     }
 
     func delete(_ user: User) async throws {
         var user = user
         user.isHidden = true
         try await userDBRepository.store(users: [user])
-        try await load()
+        appState.update([user])
     }
 }

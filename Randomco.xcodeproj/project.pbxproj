@@ -34,6 +34,7 @@
 		D2357A682A26583600433D49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2357A622A2642F100433D49 /* Localizable.strings */; };
 		D2357A6A2A265B4600433D49 /* FavouriteUserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A692A265B4600433D49 /* FavouriteUserListViewModelTests.swift */; };
 		D2357A6C2A265C1400433D49 /* NearUserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A6B2A265C1400433D49 /* NearUserListViewModelTests.swift */; };
+		D2357A6E2A2786A200433D49 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A6D2A2786A200433D49 /* LoadingState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		D2357A662A264DDE00433D49 /* MockUserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserInteractor.swift; sourceTree = "<group>"; };
 		D2357A692A265B4600433D49 /* FavouriteUserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteUserListViewModelTests.swift; sourceTree = "<group>"; };
 		D2357A6B2A265C1400433D49 /* NearUserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearUserListViewModelTests.swift; sourceTree = "<group>"; };
+		D2357A6D2A2786A200433D49 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				D23579F62A20B65200433D49 /* RandomcoApp.swift */,
+				D2357A6D2A2786A200433D49 /* LoadingState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2357A2A2A20C12000433D49 /* UserList.swift in Sources */,
+				D2357A6E2A2786A200433D49 /* LoadingState.swift in Sources */,
 				D2357A482A23891000433D49 /* UserDetail.swift in Sources */,
 				D2357A332A20DB4900433D49 /* UserInteractor.swift in Sources */,
 				D2357A432A22510600433D49 /* ManagedObject.swift in Sources */,

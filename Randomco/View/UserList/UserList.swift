@@ -33,12 +33,13 @@ struct UserList<Model>: View where Model: UserListViewModel {
 
     @ViewBuilder
     var content: some View {
-        if let _ = viewModel.error {
-            Text("generic_error")
-        } else if let users = viewModel.users {
-            ListView(users: users)
-        } else {
+        switch viewModel.state {
+        case .notLoaded, .loading:
             LoadingView()
+        case .loaded(let users):
+            ListView(users: users)
+        case .error:
+            Text("generic_error")
         }
     }
 
@@ -51,7 +52,6 @@ struct UserList<Model>: View where Model: UserListViewModel {
                     .animatePlaceholder()
             }
         }
-        .onAppear(perform: viewModel.retrieveUsers)
     }
 
     @ViewBuilder
