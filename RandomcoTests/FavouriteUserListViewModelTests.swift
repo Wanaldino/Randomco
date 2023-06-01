@@ -25,12 +25,12 @@ final class FavouriteUserListViewModelTests: XCTestCase {
         XCTAssertTrue(model.state.value?.isEmpty == false)
     }
 
-//    func testBindError() {
-//        let error = NSError(domain: UUID().description, code: 99)
-//        appState.users.send(completion: .failure(error))
-//
-//        XCTAssert(model.state.error?.localizedDescription == error.localizedDescription)
-//    }
+    func testBindError() {
+        let error = NSError(domain: UUID().description, code: 99)
+        appState.users.send(completion: .failure(error))
+
+        XCTAssert(model.state.error?.localizedDescription == error.localizedDescription)
+    }
 
     func testDidLoad() async throws {
         model.retrieveUsers()

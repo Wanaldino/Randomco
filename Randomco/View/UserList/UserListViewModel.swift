@@ -83,7 +83,7 @@ class DefaultUserListViewModel: UserListViewModel {
 
     func handle(error: Error) -> AnyPublisher<[User]?, Never> {
         self.state = .error(error)
-        return Just<[User]?>(nil).eraseToAnyPublisher()
+        return Just<[User]?>(nil).ignoreOutput().eraseToAnyPublisher()
     }
 
     func filter(users: [User]?) -> [User]? {

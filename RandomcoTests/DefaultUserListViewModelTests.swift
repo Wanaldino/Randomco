@@ -25,12 +25,12 @@ final class DefaultUserListViewModelTests: XCTestCase {
         XCTAssertTrue(model.state.value?.isEmpty == false)
     }
 
-//    func testBindError() async throws {
-//        let error = NSError(domain: UUID().description, code: 99)
-//        appState.users.send(completion: .failure(error))
-//        try await Task.sleep(for: .milliseconds(1))
-//        XCTAssert(model.state.error?.localizedDescription == error.localizedDescription)
-//    }
+    func testBindError() async throws {
+        let error = NSError(domain: UUID().description, code: 99)
+        appState.users.send(completion: .failure(error))
+        try await Task.sleep(for: .milliseconds(1))
+        XCTAssert(model.state.error?.localizedDescription == error.localizedDescription)
+    }
 
     func testDidLoad() async throws {
         model.retrieveUsers()
