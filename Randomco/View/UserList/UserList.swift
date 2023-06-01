@@ -13,7 +13,7 @@ struct UserList<Model>: View where Model: UserListViewModel {
     var body: some View {
         NavigationView {
             content
-                .navigationTitle("users")
+                .navigationTitle(LocalizedStringKey(viewModel.title))
                 .toolbar {
                     if viewModel.canLoadMore {
                         ToolbarItem(placement: .navigationBarTrailing) {
@@ -72,7 +72,7 @@ struct UserList<Model>: View where Model: UserListViewModel {
             
             ForEach(users) { user in
                 NavigationLink {
-                    UserDetail(user: user)
+                    UserDetail(viewModel: DefaultUserDetailViewModel(user: user))
                 } label: {
                     UserCell(user: user)
                 }

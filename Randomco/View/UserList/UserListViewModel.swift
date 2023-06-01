@@ -15,6 +15,7 @@ protocol UserListViewModel: ObservableObject {
     var searchKey: SearchUserKey { get set }
     var searchHints: [String] { get }
     var canLoadMore: Bool { get }
+    var title: String { get }
 
     func loadMore()
     func favourite(_ user: User)
@@ -34,6 +35,7 @@ class DefaultUserListViewModel: UserListViewModel {
 
     var canLoadMore: Bool { true }
     var canRemove: Bool { true }
+    var title: String { "users" }
 
     var usersPublisher: AnyPublisher<[User], Never> {
         appState.users
@@ -143,6 +145,7 @@ class DefaultUserListViewModel: UserListViewModel {
 
 class FavouriteUserListViewModel: DefaultUserListViewModel {
     override var canLoadMore: Bool { false }
+    override var title: String { "favourites" }
 
     override func filter(users: [User]) -> [User] {
         super.filter(users: users).filter(\.isFavourite)
@@ -151,6 +154,8 @@ class FavouriteUserListViewModel: DefaultUserListViewModel {
 
 class NearUserListViewModel: DefaultUserListViewModel {
     let locationInteractor: LocationInteractor
+
+    override var title: String { "near" }
 
     init(
         interactor: UserInteractor = DefaultUserInteractor(),

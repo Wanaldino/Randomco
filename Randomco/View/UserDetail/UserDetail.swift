@@ -7,10 +7,19 @@
 
 import SwiftUI
 
-struct UserDetail: View {
-    let user: User
+struct UserDetail<Model>: View where Model: UserDetailViewModel {
+    @StateObject var viewModel: Model
 
     var body: some View {
+        switch viewModel.state {
+        case .notLoaded, .loading: fatalError()
+        case .loaded(let user): DescriptionView(for: user)
+        case .error(let error): Text(error.localizedDescription)
+        }
+    }
+
+    @ViewBuilder
+    func DescriptionView(for user: User) -> some View {
         List {
             GeometryReader {
                 let url = URL(string: user.picture.large)
@@ -61,11 +70,29 @@ struct UserDetail: View {
             }
         }
         .navigationTitle(user.name.fullName)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: viewModel.didTapDelete) {
+                    Image(systemName: "trash")
+                        .tint(.red)
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: viewModel.didTapFavourite) {
+                    Image(systemName: user.isFavourite ? "star.slash.fill" : "star.fill")
+                        .tint(.yellow)
+                }
+            }
+        }
     }
 }
+    
 
 struct UserDetail_Previews: PreviewProvider {
     static var previews: some View {
-        UserDetail(user: .mock)
+        NavigationView {
+            UserDetail(viewModel: DefaultUserDetailViewModel(user: .mock))
+        }
     }
 }
