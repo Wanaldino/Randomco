@@ -37,6 +37,7 @@
 		D2357A6E2A2786A200433D49 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A6D2A2786A200433D49 /* LoadingState.swift */; };
 		D2357A722A27AC5A00433D49 /* SearchUserKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A712A27AC5A00433D49 /* SearchUserKey.swift */; };
 		D2357A752A28A79F00433D49 /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A742A28A79F00433D49 /* UserDetailViewModel.swift */; };
+		D2B67A442A28B5CE00C4EC2B /* SortUserKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B67A432A28B5CE00C4EC2B /* SortUserKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		D2357A6D2A2786A200433D49 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		D2357A712A27AC5A00433D49 /* SearchUserKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserKey.swift; sourceTree = "<group>"; };
 		D2357A742A28A79F00433D49 /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
+		D2B67A432A28B5CE00C4EC2B /* SortUserKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortUserKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +265,7 @@
 				D2357A292A20C12000433D49 /* UserList.swift */,
 				D2357A542A260DAC00433D49 /* UserListViewModel.swift */,
 				D2357A712A27AC5A00433D49 /* SearchUserKey.swift */,
+				D2B67A432A28B5CE00C4EC2B /* SortUserKey.swift */,
 				D2357A3A2A20E30A00433D49 /* UserCell.swift */,
 			);
 			path = UserList;
@@ -421,6 +424,7 @@
 				D2357A6E2A2786A200433D49 /* LoadingState.swift in Sources */,
 				D2357A482A23891000433D49 /* UserDetail.swift in Sources */,
 				D2357A332A20DB4900433D49 /* UserInteractor.swift in Sources */,
+				D2B67A442A28B5CE00C4EC2B /* SortUserKey.swift in Sources */,
 				D2357A432A22510600433D49 /* ManagedObject.swift in Sources */,
 				D2357A032A20B65300433D49 /* Randomco.xcdatamodeld in Sources */,
 				D2357A552A260DAC00433D49 /* UserListViewModel.swift in Sources */,

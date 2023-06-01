@@ -14,15 +14,6 @@ struct UserList<Model>: View where Model: UserListViewModel {
         NavigationView {
             content
                 .navigationTitle(LocalizedStringKey(viewModel.title))
-                .toolbar {
-                    if viewModel.canLoadMore {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button(action: viewModel.loadMore) {
-                                Image(systemName: "plus")
-                            }
-                        }
-                    }
-                }
         }
     }
 
@@ -45,6 +36,23 @@ struct UserList<Model>: View where Model: UserListViewModel {
                     ForEach(viewModel.searchHints, id: \.self) { hint in
                         Text(hint)
                             .searchCompletion(hint)
+                    }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Picker("Search", selection: $viewModel.sortKey) {
+                            ForEach(SortUserKey.allCases) { key in
+                                Text(key.rawValue.capitalized)
+                            }
+                        }.pickerStyle(.menu)
+                    }
+
+                    if viewModel.canLoadMore {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: viewModel.loadMore) {
+                                Image(systemName: "plus")
+                            }
+                        }
                     }
                 }
         case .error:
@@ -106,7 +114,7 @@ struct UserList<Model>: View where Model: UserListViewModel {
 struct UserList_Previews: PreviewProvider {
     static var previews: some View {
         UserList(viewModel: DefaultUserListViewModel())
-            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
+//            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
 
 
         UserList(viewModel: FavouriteUserListViewModel())

@@ -11,9 +11,13 @@ import CoreLocation
 
 protocol UserListViewModel: ObservableObject {
     var state: LoadingState<[User]> { get }
+
     var search: String { get set }
     var searchKey: SearchUserKey { get set }
     var searchHints: [String] { get }
+
+    var sortKey: SortUserKey { get set }
+
     var canLoadMore: Bool { get }
     var title: String { get }
 
@@ -30,6 +34,7 @@ class DefaultUserListViewModel: UserListViewModel {
     @Published var search: String = ""
     @Published var searchKey: SearchUserKey = .name
     @Published var searchHints: [String] = []
+    @Published var sortKey: SortUserKey = .name
 
     fileprivate var cancelables = Set<AnyCancellable>()
 
@@ -39,12 +44,16 @@ class DefaultUserListViewModel: UserListViewModel {
 
     var usersPublisher: AnyPublisher<[User], Never> {
         appState.users
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
             .catch(handle(error:))
             .compactMap(filter(users:))
             .combineLatest($search, $searchKey)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
             .map(filter(users:by:on:))
             .map(filter(users:))
+            .combineLatest($sortKey)
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .map(sort(users:by:))
             .eraseToAnyPublisher()
     }
 
@@ -113,7 +122,15 @@ class DefaultUserListViewModel: UserListViewModel {
 
     func filter(users: [User]) -> [User] {
         users.filter({ $0.isHidden == false })
-            .sorted(by: { $0.name.fullName < $1.name.fullName })
+    }
+
+    func sort(users: [User], by key: SortUserKey) -> [User] {
+        switch key {
+        case .name:
+            return users.sorted(by: { $0.name.fullName < $1.name.fullName })
+        case .gender:
+            return users.sorted(by: { $0.gender < $1.gender })
+        }
     }
 
     func retrieveUsers() {
