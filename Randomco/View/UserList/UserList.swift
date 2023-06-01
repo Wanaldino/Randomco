@@ -8,17 +8,45 @@
 import SwiftUI
 
 struct UserList<Model>: View where Model: UserListViewModel {
-    @ObservedObject var viewModel: Model
-
-    init(viewModel: Model) {
-        self.viewModel = viewModel
-    }
+    @StateObject var viewModel: Model
 
     var body: some View {
         NavigationView {
             content
-                .navigationTitle("users")
+                .navigationTitle(LocalizedStringKey(viewModel.title))
+        }
+    }
+
+    @ViewBuilder
+    var content: some View {
+        switch viewModel.state {
+        case .notLoaded, .loading:
+            LoadingView()
+        case .loaded(let users):
+            ListView(users: users)
+                .searchable(text: $viewModel.search)
+                .searchSuggestions {
+                    Picker("Search", selection: $viewModel.searchKey) {
+                        ForEach(SearchUserKey.allCases) { key in
+                            Text(key.rawValue.capitalized)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    
+                    ForEach(viewModel.searchHints, id: \.self) { hint in
+                        Text(hint)
+                            .searchCompletion(hint)
+                    }
+                }
                 .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Picker("Search", selection: $viewModel.sortKey) {
+                            ForEach(SortUserKey.allCases) { key in
+                                Text(key.rawValue.capitalized)
+                            }
+                        }.pickerStyle(.menu)
+                    }
+
                     if viewModel.canLoadMore {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button(action: viewModel.loadMore) {
@@ -27,18 +55,8 @@ struct UserList<Model>: View where Model: UserListViewModel {
                         }
                     }
                 }
-
-        }
-    }
-
-    @ViewBuilder
-    var content: some View {
-        if let _ = viewModel.error {
+        case .error:
             Text("generic_error")
-        } else if let users = viewModel.users {
-            ListView(users: users)
-        } else {
-            LoadingView()
         }
     }
 
@@ -51,7 +69,6 @@ struct UserList<Model>: View where Model: UserListViewModel {
                     .animatePlaceholder()
             }
         }
-        .onAppear(perform: viewModel.retrieveUsers)
     }
 
     @ViewBuilder
@@ -63,7 +80,7 @@ struct UserList<Model>: View where Model: UserListViewModel {
             
             ForEach(users) { user in
                 NavigationLink {
-                    UserDetail(user: user)
+                    UserDetail(viewModel: DefaultUserDetailViewModel(user: user))
                 } label: {
                     UserCell(user: user)
                 }
@@ -97,7 +114,7 @@ struct UserList<Model>: View where Model: UserListViewModel {
 struct UserList_Previews: PreviewProvider {
     static var previews: some View {
         UserList(viewModel: DefaultUserListViewModel())
-            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
+//            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
 
 
         UserList(viewModel: FavouriteUserListViewModel())

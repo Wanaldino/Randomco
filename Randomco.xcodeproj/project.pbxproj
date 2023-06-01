@@ -34,6 +34,10 @@
 		D2357A682A26583600433D49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2357A622A2642F100433D49 /* Localizable.strings */; };
 		D2357A6A2A265B4600433D49 /* FavouriteUserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A692A265B4600433D49 /* FavouriteUserListViewModelTests.swift */; };
 		D2357A6C2A265C1400433D49 /* NearUserListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A6B2A265C1400433D49 /* NearUserListViewModelTests.swift */; };
+		D2357A6E2A2786A200433D49 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A6D2A2786A200433D49 /* LoadingState.swift */; };
+		D2357A722A27AC5A00433D49 /* SearchUserKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A712A27AC5A00433D49 /* SearchUserKey.swift */; };
+		D2357A752A28A79F00433D49 /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2357A742A28A79F00433D49 /* UserDetailViewModel.swift */; };
+		D2B67A442A28B5CE00C4EC2B /* SortUserKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B67A432A28B5CE00C4EC2B /* SortUserKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +89,10 @@
 		D2357A662A264DDE00433D49 /* MockUserInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserInteractor.swift; sourceTree = "<group>"; };
 		D2357A692A265B4600433D49 /* FavouriteUserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteUserListViewModelTests.swift; sourceTree = "<group>"; };
 		D2357A6B2A265C1400433D49 /* NearUserListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearUserListViewModelTests.swift; sourceTree = "<group>"; };
+		D2357A6D2A2786A200433D49 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
+		D2357A712A27AC5A00433D49 /* SearchUserKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserKey.swift; sourceTree = "<group>"; };
+		D2357A742A28A79F00433D49 /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
+		D2B67A432A28B5CE00C4EC2B /* SortUserKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortUserKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				D23579F62A20B65200433D49 /* RandomcoApp.swift */,
+				D2357A6D2A2786A200433D49 /* LoadingState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -218,7 +227,7 @@
 			children = (
 				D2357A442A22918200433D49 /* Modifiers */,
 				D2357A522A260D6000433D49 /* UserList */,
-				D2357A472A23891000433D49 /* UserDetail.swift */,
+				D2357A732A28A78B00433D49 /* UserDetail */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,6 +264,8 @@
 			children = (
 				D2357A292A20C12000433D49 /* UserList.swift */,
 				D2357A542A260DAC00433D49 /* UserListViewModel.swift */,
+				D2357A712A27AC5A00433D49 /* SearchUserKey.swift */,
+				D2B67A432A28B5CE00C4EC2B /* SortUserKey.swift */,
 				D2357A3A2A20E30A00433D49 /* UserCell.swift */,
 			);
 			path = UserList;
@@ -266,6 +277,15 @@
 				D2357A5C2A262FA200433D49 /* LocationInteractor.swift */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		D2357A732A28A78B00433D49 /* UserDetail */ = {
+			isa = PBXGroup;
+			children = (
+				D2357A472A23891000433D49 /* UserDetail.swift */,
+				D2357A742A28A79F00433D49 /* UserDetailViewModel.swift */,
+			);
+			path = UserDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,16 +421,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2357A2A2A20C12000433D49 /* UserList.swift in Sources */,
+				D2357A6E2A2786A200433D49 /* LoadingState.swift in Sources */,
 				D2357A482A23891000433D49 /* UserDetail.swift in Sources */,
 				D2357A332A20DB4900433D49 /* UserInteractor.swift in Sources */,
+				D2B67A442A28B5CE00C4EC2B /* SortUserKey.swift in Sources */,
 				D2357A432A22510600433D49 /* ManagedObject.swift in Sources */,
 				D2357A032A20B65300433D49 /* Randomco.xcdatamodeld in Sources */,
 				D2357A552A260DAC00433D49 /* UserListViewModel.swift in Sources */,
+				D2357A752A28A79F00433D49 /* UserDetailViewModel.swift in Sources */,
 				D2357A4A2A24B2C700433D49 /* AppState.swift in Sources */,
 				D2357A5D2A262FA200433D49 /* LocationInteractor.swift in Sources */,
 				D2357A2D2A20C91500433D49 /* UserRepository.swift in Sources */,
 				D2357A3B2A20E30A00433D49 /* UserCell.swift in Sources */,
 				D2357A002A20B65300433D49 /* Persistence.swift in Sources */,
+				D2357A722A27AC5A00433D49 /* SearchUserKey.swift in Sources */,
 				D2357A402A224F9000433D49 /* UserDBRepository.swift in Sources */,
 				D2357A302A20C9A000433D49 /* UserListResponse.swift in Sources */,
 				D2357A462A22919500433D49 /* AnimatePlaceholder.swift in Sources */,

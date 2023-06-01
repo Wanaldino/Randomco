@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import Combine
 @testable import Randomco
 
 final class DefaultUserListViewModelTests: XCTestCase {
@@ -13,23 +14,59 @@ final class DefaultUserListViewModelTests: XCTestCase {
     var interactor: MockUserInteractor!
     var model: DefaultUserListViewModel!
 
+    private var cancellables: Set<AnyCancellable> = Set()
+
     override func setUp() {
+        super.setUp()
         appState = MockAppStateOutput()
         interactor = MockUserInteractor()
         model = DefaultUserListViewModel(interactor: interactor, appState: appState)
     }
 
-    func testBindUsers() {
-        appState.users.send([.mock])
+    override func tearDown() {
+        super.tearDown()
+        cancellables = []
+    }
 
-        XCTAssertTrue(model.users?.isEmpty == false)
+    func testBindUsers() {
+        var users: [User] = []
+        let expectation = self.expectation(description: "DefaultUserListViewModelTests.Users")
+
+        model.$state.dropFirst().first().sink { state in
+            switch state {
+            case .loaded(let _users):
+                users = _users
+            default:
+                break
+            }
+            expectation.fulfill()
+        }.store(in: &cancellables)
+
+        appState.users.send([.mock])
+        waitForExpectations(timeout: 10)
+
+        XCTAssertTrue(users.isEmpty == false)
     }
 
     func testBindError() {
-        let error = NSError(domain: UUID().description, code: 99)
-        appState.users.send(completion: .failure(error))
+        var error: Error?
+        let expectation = self.expectation(description: "DefaultUserListViewModelTests.Error")
 
-        XCTAssert(model.error?.localizedDescription == error.localizedDescription)
+        model.$state.dropFirst().first().sink { state in
+            switch state {
+            case .error(let _error):
+                error = _error
+            default:
+                break
+            }
+            expectation.fulfill()
+        }.store(in: &cancellables)
+
+        let sentError = NSError(domain: UUID().description, code: 99)
+        appState.users.send(completion: .failure(sentError))
+        waitForExpectations(timeout: 10)
+
+        XCTAssert(error?.localizedDescription == sentError.localizedDescription)
     }
 
     func testDidLoad() async throws {

@@ -239,6 +239,12 @@ extension User: Identifiable {
     var id: String { email }
 }
 
+extension User: Equatable {
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
 import CoreLocation
 extension User.Location.Coordinates {
     func distance(to coordinates: CLLocation) -> Double {

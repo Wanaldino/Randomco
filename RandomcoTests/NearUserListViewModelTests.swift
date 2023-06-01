@@ -7,6 +7,7 @@
 
 import CoreLocation
 import XCTest
+import Combine
 @testable import Randomco
 
 final class NearUserListViewModelTests: XCTestCase {
@@ -14,36 +15,58 @@ final class NearUserListViewModelTests: XCTestCase {
     var interactor: MockUserInteractor!
     var model: NearUserListViewModel!
 
+    private var cancellables: Set<AnyCancellable> = Set()
+
     override func setUp() {
+        super.setUp()
         appState = MockAppStateOutput()
         interactor = MockUserInteractor()
         model = NearUserListViewModel(interactor: interactor, appState: appState)
     }
 
-    func testBindUsers() {
-        appState.users.send([.mock])
-
-        XCTAssertFalse(model.users?.isEmpty == false)
+    override func tearDown() {
+        super.tearDown()
+        cancellables = []
     }
 
-    func testBindLocation() {
-        appState.location.send(CLLocation(latitude: 0, longitude: 0))
-
-        XCTAssertFalse(model.users?.isEmpty == false)
+    func testBindUsers() async throws {
+        appState.users.send([.mock])
+        try await Task.sleep(for: .milliseconds(1))
+        XCTAssertFalse(model.state.value?.isEmpty == false)
     }
 
-    func testBindUserAndLocation() {
+    func testBindLocation() async throws {
+        appState.location.send(CLLocation(latitude: 0, longitude: 0))
+        try await Task.sleep(for: .milliseconds(1))
+        XCTAssertFalse(model.state.value?.isEmpty == false)
+    }
+
+    func testBindUserAndLocation() async throws {
         appState.users.send([.mock])
         appState.location.send(CLLocation(latitude: 0, longitude: 0))
-
-        XCTAssertTrue(model.users?.isEmpty == false)
+        try await Task.sleep(for: .milliseconds(1))
+        XCTAssertTrue(model.state.value?.isEmpty == false)
     }
 
     func testBindError() {
-        let error = NSError(domain: UUID().description, code: 99)
-        appState.users.send(completion: .failure(error))
+        var error: Error?
+        let expectation = self.expectation(description: "NearUserListViewModelTests.Error")
 
-        XCTAssert(model.error?.localizedDescription == error.localizedDescription)
+        model.$state.dropFirst().first().sink { state in
+            switch state {
+            case .error(let _error):
+                error = _error
+            default:
+                break
+            }
+            expectation.fulfill()
+        }.store(in: &cancellables)
+
+        let sentError = NSError(domain: UUID().description, code: 99)
+        appState.users.send(completion: .failure(sentError))
+        waitForExpectations(timeout: 10)
+
+        XCTAssert(error?.localizedDescription == sentError.localizedDescription)
     }
 
     func testDidLoad() async throws {
