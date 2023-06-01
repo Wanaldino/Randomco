@@ -7,6 +7,7 @@
 
 import CoreLocation
 import XCTest
+import Combine
 @testable import Randomco
 
 final class NearUserListViewModelTests: XCTestCase {
@@ -14,10 +15,18 @@ final class NearUserListViewModelTests: XCTestCase {
     var interactor: MockUserInteractor!
     var model: NearUserListViewModel!
 
+    private var cancellables: Set<AnyCancellable> = Set()
+
     override func setUp() {
+        super.setUp()
         appState = MockAppStateOutput()
         interactor = MockUserInteractor()
         model = NearUserListViewModel(interactor: interactor, appState: appState)
+    }
+
+    override func tearDown() {
+        super.tearDown()
+        cancellables = []
     }
 
     func testBindUsers() async throws {
@@ -40,10 +49,24 @@ final class NearUserListViewModelTests: XCTestCase {
     }
 
     func testBindError() {
-        let error = NSError(domain: UUID().description, code: 99)
-        appState.users.send(completion: .failure(error))
+        var error: Error?
+        let expectation = self.expectation(description: "NearUserListViewModelTests.Error")
 
-        XCTAssert(model.state.error?.localizedDescription == error.localizedDescription)
+        model.$state.dropFirst().first().sink { state in
+            switch state {
+            case .error(let _error):
+                error = _error
+            default:
+                break
+            }
+            expectation.fulfill()
+        }.store(in: &cancellables)
+
+        let sentError = NSError(domain: UUID().description, code: 99)
+        appState.users.send(completion: .failure(sentError))
+        waitForExpectations(timeout: 10)
+
+        XCTAssert(error?.localizedDescription == sentError.localizedDescription)
     }
 
     func testDidLoad() async throws {
