@@ -21,7 +21,7 @@ final class DefaultUserListViewModelTests: XCTestCase {
 
     func testBindUsers() async throws {
         appState.users.send([.mock])
-        try await Task.sleep(for: .seconds(1))
+        try await Task.sleep(for: .milliseconds(1))
         XCTAssertTrue(model.state.value?.isEmpty == false)
     }
 
